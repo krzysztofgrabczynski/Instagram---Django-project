@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib.auth import login, logout, authenticate
 from .forms import UserRegistrationForm
 
 
@@ -10,11 +11,12 @@ def test_view(request):
 
 def sign_up(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+        form = UserRegistrationForm(request)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
         return redirect('home')
-    else:
-        form = UserRegistrationForm()
-        return render(request, 'registration/sign_up.html', {'form': form})
 
-def login(request):
-    return render(request, 'registration/login.html')
+    form = UserRegistrationForm()
+    return render(request, 'registration/sign_up.html', {'form': form})
+
