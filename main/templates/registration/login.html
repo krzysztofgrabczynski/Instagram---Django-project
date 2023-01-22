@@ -6,11 +6,12 @@
 
 {% block body %} 
 
-    <div class="card" style="width: 26rem;">
+    <div class="card" style="width: 32rem;">
         <div class="card-body">
           <h5 class="card-title">Log in</h5>
             <form method="post">
                 {% csrf_token %}
+                {{ form|bootstrap }}
                 <br>
                 <button type="submit" class="btn btn-primary">Log in</button>
             </form>
