@@ -11,7 +11,7 @@ def test_view(request):
 
 def sign_up(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
