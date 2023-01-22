@@ -1,13 +1,10 @@
-from django.shortcuts import render, HttpResponse, redirect
-from django.contrib.auth import login, logout, authenticate
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
 from .forms import UserRegistrationForm
 
 
 def home(request):
-    return HttpResponse('home_view')
-
-def test_view(request):
-    return HttpResponse('test_view')
+    return render(request, 'home.html')
 
 def sign_up(request):
     if request.method == 'POST':
