@@ -2,17 +2,18 @@
 {% load bootstrap %}
 
 
-{% block title %} Login in {% endblock %}
+{% block title %} Sign up {% endblock %}
 
 {% block body %} 
 
-    <div class="card" style="width: 26rem;">
+    <div class="card" style="width: 48rem;">
         <div class="card-body">
-          <h5 class="card-title">Log in</h5>
+          <h5 class="card-title">Sign up</h5>
             <form method="post">
                 {% csrf_token %}
+                {{ form|bootstrap }}
                 <br>
-                <button type="submit" class="btn btn-primary">Log in</button>
+                <button type="submit" class="btn btn-primary">Sign up</button>
             </form>
         </div>
       </div>
