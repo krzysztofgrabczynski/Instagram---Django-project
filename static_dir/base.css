@@ -1,0 +1,15 @@
+#navbarNavDropdown .nav-link {
+    margin-right: 20px;
+}
+
+#navbarNavDropdown .form-inline {
+    display: inherit;
+}
+
+#navbarNavDropdown .form-control {
+    margin-right: 5px;
+}
+
+.navbar-brand {
+    margin-left: 20px;
+}
