@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm
-
+from .models import UserProfile
+from django.contrib.auth.models import User
 
 @login_required
 def home(request):
@@ -13,6 +14,7 @@ def sign_up(request):
     if request.method == 'POST':
         user_registration_form = UserRegistrationForm(request.POST or None)
         user_profile_form = UserProfileForm()
+        
         if user_registration_form.is_valid():
             user_profile = user_profile_form.save(commit=False)
             user = user_registration_form.save()
@@ -22,8 +24,19 @@ def sign_up(request):
             login(request, user)
             return redirect('home')
 
-        else:
-            print(user_registration_form.errors)
     user_registration_form = UserRegistrationForm()
     return render(request, 'registration/sign_up.html', {'form': user_registration_form})
 
+
+@login_required
+def edit_account(request, id):
+    profile = get_object_or_404(UserProfile, pk=id)
+    user = profile.user
+    
+    profile_form = UserProfileForm(request.POST or None, instance=profile)
+    user_form = UserRegistrationForm(instance=user)
+
+    if request.method == 'POST':
+        pass
+    
+    return render(request, 'account_settings.html', {'user': user_form, 'profile': profile_form})
