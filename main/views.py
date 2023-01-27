@@ -60,5 +60,5 @@ def edit_profile(request, id):
         profile_form.save()
         
         return redirect(home)
-    print(profile_form.errors)
+
     return render(request, 'profile_settings.html', {'profile': profile_form})
