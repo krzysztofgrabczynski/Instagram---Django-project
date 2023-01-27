@@ -22,7 +22,7 @@
                 </div>
             </li> -->
             <li class="nav-item">
-                <a class="nav-link" href="#">Profile</a>
+                <a class="nav-link" href="{% url 'edit_profile' user.userprofile.id %}">Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'edit_account' user.userprofile.id %}">Account</a>
