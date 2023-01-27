@@ -9,10 +9,10 @@
         <h5 class="card-title">Account settings</h5>
             <form method="post">
                 {% csrf_token %}
-                {{ user.username|bootstrap }}
-                {{ user.first_name|bootstrap }}
-                {{ user.last_name|bootstrap }}
-                {{ user.email|bootstrap }}
+                {{ user_form.username|bootstrap }}
+                {{ user_form.first_name|bootstrap }}
+                {{ user_form.last_name|bootstrap }}
+                {{ user_form.email|bootstrap }}
                 
                 <br>
                 <button type="submit" class="btn btn-primary">Save</button>
