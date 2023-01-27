@@ -45,7 +45,9 @@ def edit_profile(request, id):
     profile = get_object_or_404(UserProfile, pk=id)
     profile_form = UserProfileForm(request.POST or None, instance=profile)
 
-    if request.method == 'POST':
-        pass
+    if profile_form.is_valid():
+        profile_form.save()
+        
+        return redirect(home)
     
     return render(request, 'profile_settings.html', {'profile': profile_form})

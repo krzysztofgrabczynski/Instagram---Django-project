@@ -22,4 +22,4 @@ class UserRegistrationForm(UserCreationForm):
 class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['user', 'description', 'profile_img']
+        fields = ['gender', 'description', 'profile_img']
