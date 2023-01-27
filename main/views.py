@@ -30,24 +30,35 @@ def sign_up(request):
 
 @login_required
 def edit_account(request, id):
-    profile = UserProfile.objects.get(id=id)
+    profile = UserProfile.objects.get(user=request.user)
     user = profile.user
     
     user_form = UserRegistrationForm(instance=user)
-
-    if request.method == 'POST':
-        pass
     
+    if request.method == 'POST':
+        username = request.POST['username']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+
+        user.username = username
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+
+        return redirect(home)
+
     return render(request, 'account_settings.html', {'user': user_form})
 
 @login_required
 def edit_profile(request, id):
     profile = get_object_or_404(UserProfile, pk=id)
-    profile_form = UserProfileForm(request.POST or None, instance=profile)
+    profile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=profile)
 
     if profile_form.is_valid():
         profile_form.save()
         
         return redirect(home)
-    
+    print(profile_form.errors)
     return render(request, 'profile_settings.html', {'profile': profile_form})
