@@ -117,6 +117,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = ['static_dir']
 
+STATIC_URL = 'media/'
+MEDIA_ROOT = 'media/'
+
+
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
