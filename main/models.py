@@ -7,8 +7,8 @@ User = get_user_model()
 
 class UserProfile(models.Model):
     GENDER = [
-        (1, 'male'),
-        (2, 'female'),
+        (0, 'male'),
+        (1, 'female'),
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
