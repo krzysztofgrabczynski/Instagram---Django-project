@@ -5,6 +5,7 @@ from .forms import UserRegistrationForm, UserProfileForm
 from .models import UserProfile
 from django.contrib.auth.models import User
 
+
 @login_required
 def home(request):
     return render(request, 'home.html')
@@ -30,7 +31,7 @@ def sign_up(request):
 
 @login_required
 def edit_account(request, id):
-    profile = UserProfile.objects.get(user=request.user)
+    profile = UserProfile.objects.get(id=id)
     user = profile.user
     
     user_form = UserRegistrationForm(instance=user)
@@ -49,16 +50,24 @@ def edit_account(request, id):
 
         return redirect(home)
 
-    return render(request, 'account_settings.html', {'user': user_form})
+    return render(request, 'account_settings.html', {'user_form': user_form})
 
 @login_required
 def edit_profile(request, id):
     profile = get_object_or_404(UserProfile, pk=id)
     profile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=profile)
-
+    
     if profile_form.is_valid():
         profile_form.save()
         
         return redirect(home)
 
     return render(request, 'profile_settings.html', {'profile': profile_form})
+
+
+@login_required
+def user_profile(request, id):
+    profile = UserProfile.objects.get(id=id)
+    gender = profile.GENDER[profile.gender][1]
+
+    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender})
