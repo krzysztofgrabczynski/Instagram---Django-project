@@ -12,9 +12,12 @@ class UserProfile(models.Model):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gender = models.PositiveSmallIntegerField(choices=GENDER, default=1)
+    gender = models.PositiveSmallIntegerField(choices=GENDER, default=0)
     description = models.TextField(default='')
-    profile_img = models.ImageField(upload_to='profile_imgs', blank=True, null=True)
+    profile_img = models.ImageField(default='profile_imgs/default_male.jpg', upload_to='profile_imgs', blank=True, null=True)
+    photos = 0
+    followers = 0
+    following = 0
 
     def __str__(self) -> str:
         return f'Profile: {self.user.username}'
