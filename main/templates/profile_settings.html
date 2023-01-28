@@ -7,7 +7,7 @@
     <div class="card mx-auto text-center my-5" style="width: 48rem;">
         <div class="card-body">
         <h5 class="card-title">Profile settings</h5>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ profile|bootstrap }}
                 
