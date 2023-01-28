@@ -3,7 +3,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm
 from .models import UserProfile
-from django.contrib.auth.models import User
 
 
 @login_required
@@ -56,7 +55,6 @@ def edit_account(request, id):
 def edit_profile(request, id):
     profile = get_object_or_404(UserProfile, pk=id)
     profile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=profile)
-    
     if profile_form.is_valid():
         profile_form.save()
         
