@@ -19,9 +19,6 @@ class UserProfile(models.Model):
     followers = 0
     following = 0
 
-    post = models.ForeignKey('Post', on_delete=models.CASCADE)
-    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
-
     def __str__(self) -> str:
         return f'Profile: {self.user.username}'
 
@@ -30,20 +27,29 @@ class UserProfile(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     post_img = models.ImageField(upload_to='posts_imgs', blank=False)
     description = models.TextField(default='')
     date = models.DateTimeField(blank=False, auto_now=True)
     likes = 0
     
+    def __str__(self) -> str:
+        return f'Post of the: {self.user.username}'
+    
+    def __repr__(self) -> str:
+        return self.__str__()
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField(default='')
     date = models.DateTimeField(blank=False, auto_now=True)
     likes = 0
 
+    def __str__(self) -> str:
+        return f'Comment of the: {self.user.username} under post of the: {self.post.user.username}'
+    
+    def __repr__(self) -> str:
+        return self.__str__()
 
         
