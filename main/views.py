@@ -7,7 +7,7 @@ from .models import UserProfile, Post
 
 @login_required
 def home(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-date')
     comment_form = CommentForm()
 
     return render(request, 'home.html', {'posts': posts})
