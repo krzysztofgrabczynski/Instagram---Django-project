@@ -37,9 +37,11 @@
                         <div class="post-footer">
                             
                             <div class="input-group"> 
-                                <form method="post">
+                                <form method="post" action="{% url 'add_comment' post.id %}">
                                     {% csrf_token %}
-                                    <input class="form-control" placeholder="Add a comment" type="text">
+                                    
+                                    {{ comment_form.text | bootstrap}}
+                                    
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </form>
                             </div>
