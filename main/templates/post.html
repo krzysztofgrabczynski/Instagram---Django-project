@@ -1,4 +1,7 @@
+{% load bootstrap %}
+
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
 {% for post in posts %}
 <div class="card mx-auto text-center my-5" style="width: 44rem;">
     <div class="card-body">
@@ -8,7 +11,7 @@
                     <div class="panel panel-white post panel-shadow">
                         <div class="post-heading">
                             <div class="pull-left image">
-                                <img src="/media/{{ profile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
+                                <img src="/media/{{ post.user.userprofile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
                             </div>
                             <div class="pull-left meta">
                                 <div class="title h5">
@@ -32,18 +35,20 @@
                             </div>
                         </div>
                         <div class="post-footer">
+                            
                             <div class="input-group"> 
-                                <input class="form-control" placeholder="Add a comment" type="text">
-                                <span class="input-group-addon">
-                                    <a href="#"><i class="fa fa-edit"></i></a>  
-                                </span>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input class="form-control" placeholder="Add a comment" type="text">
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </form>
                             </div>
 
                             <ul class="comments-list">
                                 {% for comment in post.comments.all %}
                                 <li class="comment">
                                     <a class="pull-left" href="#">
-                                        <img class="avatar" src="/media/{{ profile.profile_img }}" alt="avatar" style="border-radius: 50%;">
+                                        <img class="avatar" src="{{ comment.user.userprofile.profile_img.url }}" alt="avatar" style="border-radius: 50%;">
                                     </a>
                                     <div class="comment-body">
                                         <div class="comment-heading">
@@ -61,6 +66,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </div>
 {% endfor %}
