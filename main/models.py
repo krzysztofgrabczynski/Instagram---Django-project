@@ -15,9 +15,9 @@ class UserProfile(models.Model):
     gender = models.PositiveSmallIntegerField(choices=GENDER, default=0)
     description = models.TextField(default='', blank=True)
     profile_img = models.ImageField(default='profile_imgs/default_male.jpg', upload_to='profile_imgs', blank=True, null=True)
-    photos = 0
-    followers = 0
-    following = 0
+    posts_amount = models.IntegerField(default=0)
+    followers_amount = models.IntegerField(default=0)
+    following_amount = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return f'Profile: {self.user.username}'
