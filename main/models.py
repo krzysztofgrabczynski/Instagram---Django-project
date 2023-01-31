@@ -31,7 +31,7 @@ class Post(models.Model):
     post_img = models.ImageField(upload_to='posts_imgs', blank=False)
     description = models.TextField(default='')
     date = models.DateTimeField(blank=False, auto_now=True)
-    likes = 0
+    likes = models.IntegerField(default=0)
     
     def __str__(self) -> str:
         return f'Post of the: {self.user.username}'
@@ -44,7 +44,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField(default='')
     date = models.DateTimeField(blank=False, auto_now=True)
-    likes = 0
+    likes = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return f'Comment of the: {self.user.username} under post of the: {self.post.user.username}'
