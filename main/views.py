@@ -3,7 +3,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post
-from django.contrib.auth.models import User
 
 
 @login_required
@@ -11,7 +10,7 @@ def home(request):
     posts = Post.objects.all().order_by('-date')
     comment_form = CommentForm()
 
-    return render(request, 'home.html', {'posts': posts})
+    return render(request, 'home.html', {'posts': posts, 'comment_form': comment_form})
 
 
 def sign_up(request):
@@ -74,9 +73,10 @@ def user_profile(request, id):
     profile = UserProfile.objects.get(id=id)
     gender = profile.GENDER[profile.gender][1]
     posts = profile.user.posts.all().order_by('-date')
+    comment_form = CommentForm()
 
       
-    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts})
+    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form})
 
 
 @login_required
@@ -86,8 +86,7 @@ def add_post(request):
 
     if post_form.is_valid():   
         post = post_form.save(commit=False)
-        post.user = request.user  
-          
+        post.user = request.user        
         user.posts_amount += 1
         
         user.save()
@@ -98,3 +97,25 @@ def add_post(request):
     return render(request, 'add_post.html',  {'post_form': post_form})
 
 
+@login_required
+def add_comment(request, post_id):
+    user_profile = UserProfile.objects.get(user=request.user)
+    posts = Post.objects.all()
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            print(post_id)
+            comment.post = posts.get(id=post_id)
+            comment.user = user_profile.user
+            comment.save()
+            
+    return redirect('home')
+
+    
+
+        
+    
+    
