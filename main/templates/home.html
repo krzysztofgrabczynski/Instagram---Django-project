@@ -4,5 +4,12 @@
 
 
 {% block body %} 
+<div class="card mx-auto text-center my-5" style="width: 44rem;">
+    <div class="card-body">
+        <a href="{% url 'add_post' %}" class="btn btn-light">Add new post</a>
+    </div>
+</div>
+
+    {% include 'post.html' %}
 
 {% endblock %}
