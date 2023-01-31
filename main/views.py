@@ -2,15 +2,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
-from .models import UserProfile, Post
+from .models import UserProfile, Post, Comment
 
 
 @login_required
 def home(request):
     posts = Post.objects.all().order_by('-date')
     comment_form = CommentForm()
-
-    return render(request, 'home.html', {'posts': posts, 'comment_form': comment_form})
+    comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
+    
+    return render(request, 'home.html', {'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids})
 
 
 def sign_up(request):
@@ -74,9 +75,9 @@ def user_profile(request, id):
     gender = profile.GENDER[profile.gender][1]
     posts = profile.user.posts.all().order_by('-date')
     comment_form = CommentForm()
-
+    comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
       
-    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form})
+    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids})
 
 
 @login_required
@@ -115,7 +116,10 @@ def add_comment(request, post_id):
     return redirect('home')
 
     
-
-        
+@login_required
+def delete_comment(request, id):
+    comment = Comment.objects.get(id=id)
+    comment.delete()
+    return redirect('home')
     
     
