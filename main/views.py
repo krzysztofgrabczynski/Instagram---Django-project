@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegistrationForm, UserProfileForm
-from .models import UserProfile
+from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
+from .models import UserProfile, Post
 
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    posts = Post.objects.all()
+    comment_form = CommentForm()
+
+    return render(request, 'home.html', {'posts': posts})
 
 
 def sign_up(request):
@@ -69,4 +72,23 @@ def user_profile(request, id):
     gender = profile.GENDER[profile.gender][1]
     posts = profile.user.posts.all()
 
+      
     return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts})
+
+
+@login_required
+def add_post(request):
+    post_form = PostForm(request.POST or None, request.FILES or None)
+    
+    if post_form.is_valid():
+        print('is valid')    
+        post = post_form.save(commit=False)
+        post.user = request.user
+        post.save()
+
+        return redirect('home')
+    else:
+        print("is not valid")
+    return render(request, 'add_post.html',  {'post_form': post_form})
+
+
