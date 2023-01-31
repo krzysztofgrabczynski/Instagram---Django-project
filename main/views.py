@@ -72,7 +72,7 @@ def edit_profile(request, id):
 def user_profile(request, id):
     profile = UserProfile.objects.get(id=id)
     gender = profile.GENDER[profile.gender][1]
-    posts = profile.user.posts.all()
+    posts = profile.user.posts.all().order_by('-date')
 
       
     return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts})
