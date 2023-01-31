@@ -29,6 +29,7 @@ class PostForm(ModelForm):
         fields = ['post_img', 'description']
     
 class CommentForm(ModelForm):
+    text = forms.CharField(label='', widget=forms.Textarea(attrs={'placeholder': 'Add a comment','rows': 1, 'cols': 69}))
     class Meta:
         model = Comment
         fields = ['text']
