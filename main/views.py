@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post
+from django.contrib.auth.models import User
 
 
 @login_required
@@ -81,16 +82,19 @@ def user_profile(request, id):
 @login_required
 def add_post(request):
     post_form = PostForm(request.POST or None, request.FILES or None)
-    
-    if post_form.is_valid():
-        print('is valid')    
+    user = UserProfile.objects.get(user=request.user)
+
+    if post_form.is_valid():   
         post = post_form.save(commit=False)
-        post.user = request.user
+        post.user = request.user  
+          
+        user.posts_amount += 1
+        
+        user.save()
         post.save()
 
         return redirect('home')
-    else:
-        print("is not valid")
+
     return render(request, 'add_post.html',  {'post_form': post_form})
 
 
