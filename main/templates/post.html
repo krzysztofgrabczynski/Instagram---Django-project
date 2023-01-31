@@ -11,7 +11,7 @@
                     <div class="panel panel-white post panel-shadow">
                         <div class="post-heading">
                             <div class="pull-left image">
-                                <img src="/media/{{ post.user.userprofile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
+                                <img src="/media/{{ user.userprofile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
                             </div>
                             <div class="pull-left meta">
                                 <div class="title h5">
@@ -50,14 +50,19 @@
                                 {% for comment in post.comments.all %}
                                 <li class="comment">
                                     <a class="pull-left" href="#">
-                                        <img class="avatar" src="{{ comment.user.userprofile.profile_img.url }}" alt="avatar" style="border-radius: 50%;">
+                                        <img class="avatar" src="{{ user.userprofile.profile_img.url }}" alt="avatar" style="border-radius: 50%;">
                                     </a>
                                     <div class="comment-body">
                                         <div class="comment-heading">
                                             <h4 class="user">{{ comment.user.first_name }} {{ comment.user.last_name }}</h4>
-                                            <h5 class="time">7{{ comment.date }}</h5>
+                                            <h5 class="time">{{ comment.date }}</h5>
                                         </div>
-                                        <p>{{ comment.text }}</p>
+                                        <p style="display: inline-block; vertical-align: bottom;">{{ comment.text }}</p>
+
+                                        {% if comment.id in users_comments %}
+                                        <a href="{% url  'delete_comment' comment.id %}" class="btn btn-danger btn-sm delete-confirm" role="button" style="display: inline-block; vertical-align: top;">
+                                            Delete</a>
+                                        {% endif %}
                                     </div>
                                 </li>
                                 {% endfor %}
