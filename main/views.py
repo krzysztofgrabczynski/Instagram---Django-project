@@ -52,7 +52,7 @@ def edit_account(request, id):
 
         return redirect(home)
 
-    return render(request, 'account_settings.html', {'user_form': user_form})
+    return render(request, 'settings/edit_account.html', {'user_form': user_form})
 
 @login_required
 def edit_profile(request, id):
@@ -65,7 +65,7 @@ def edit_profile(request, id):
         
         return redirect(user_profile, id)
 
-    return render(request, 'profile_settings.html', {'profile': profile_form})
+    return render(request, 'settings/edit_profile.html', {'profile': profile_form})
 
 
 @login_required
