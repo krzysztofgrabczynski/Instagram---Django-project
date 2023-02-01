@@ -52,4 +52,14 @@ class Comment(models.Model):
     def __repr__(self) -> str:
         return self.__str__()
 
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f'Like of the: {self.user.username}'
+    
+    def __repr__(self) -> str:
+        return self.__str__()
         
