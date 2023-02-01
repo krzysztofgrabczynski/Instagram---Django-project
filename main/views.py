@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
-from .models import UserProfile, Post, Comment
+from .models import UserProfile, Post, Comment, Like
 
 
 @login_required
@@ -152,4 +152,21 @@ def delete_comment(request, id):
     comment.delete()
     return redirect('home')
     
+
+@login_required
+def thumb_up(request, id):
+    post = Post.objects.get(id=id)
     
+    like = Like.objects.filter(post=post).first()
+
+    if not like:
+        new_like = Like.objects.create(user=request.user, post=post)
+        new_like.save()
+        post.likes += 1
+        post.save()
+    else:
+        like.delete()
+        post.likes -= 1
+        post.save()
+
+    return redirect('home')
