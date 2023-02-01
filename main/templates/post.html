@@ -32,6 +32,13 @@
                                 <a href="#" class="btn btn-default stat-item">
                                     <i class="fa fa-share icon"></i>128
                                 </a>
+                                {% if post.user == user %}
+                                <a href="{% url 'edit_post' post.id %}" class="btn btn-primary btn-sm primary-confirm" role="button" style="display: inline-block; vertical-align: top;">
+                                    Edit</a>
+                                <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm delete-confirm" role="button" style="display: inline-block; vertical-align: top;">
+                                    Delete</a>
+                                {% endif %}
+                                
                             </div>
                         </div>
                         <div class="post-footer">
