@@ -97,6 +97,35 @@ def add_post(request):
 
     return render(request, 'add_post.html',  {'post_form': post_form})
 
+@login_required
+def edit_post(request, id):
+    user = request.user
+    get_post = get_object_or_404(Post, pk=id)
+    post_form = PostForm(request.POST or None, request.FILES or None, instance=get_post)
+
+    if get_post.user != user:
+        return redirect('home')
+
+    if request.method == 'POST':
+        if post_form.is_valid():
+            post = post_form.save(commit=False)
+            post.user = user
+            post.save()
+
+        return redirect('home')
+
+    return render(request, 'edit_post.html', {'post_form': post_form})
+
+@login_required
+def delete_post(request, id):
+    user = request.user
+    post = Post.objects.get(id=id)
+
+    if post.user != user:
+        return redirect('home')
+
+    post.delete()
+    return redirect('home')
 
 @login_required
 def add_comment(request, post_id):
