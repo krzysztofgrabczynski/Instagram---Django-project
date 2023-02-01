@@ -123,7 +123,8 @@ def delete_post(request, id):
 
     if post.user != user:
         return redirect('home')
-
+    user.userprofile.posts_amount -= 1
+    user.userprofile.save()
     post.delete()
     return redirect('home')
 
