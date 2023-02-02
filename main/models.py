@@ -25,6 +25,16 @@ class UserProfile(models.Model):
     def __repr__(self) -> str:
         return self.__str__()
 
+class Follow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
+    user_followed = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followed', default=None)
+    followd_user_id = models.PositiveIntegerField(blank=False, default=None)
+
+    def __str__(self) -> str:
+        return f'Follow object of the: {self.user.username}'
+
+    def __repr__(self) -> str:
+        return self.__str__()
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
