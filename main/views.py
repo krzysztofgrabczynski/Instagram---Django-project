@@ -71,13 +71,13 @@ def edit_profile(request, id):
 
 
 @login_required
-def user_profile(request, id):
+def user_profile(request, id): 
     profile = UserProfile.objects.get(id=id)
     gender = profile.GENDER[profile.gender][1]
     posts = profile.user.posts.all().order_by('-date')
     comment_form = CommentForm()
     comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
-      
+    
     return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids})
 
 
