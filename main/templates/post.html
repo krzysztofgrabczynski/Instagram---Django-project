@@ -11,11 +11,15 @@
                     <div class="panel panel-white post panel-shadow">
                         <div class="post-heading">
                             <div class="pull-left image">
-                                <img src="/media/{{ user.userprofile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
+                                <a href="{% url 'user_profile' post.user.userprofile.id %}">
+                                    <img src="/media/{{ user.userprofile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
+                                </a>
                             </div>
                             <div class="pull-left meta">
                                 <div class="title h5">
-                                    <h5>{{ post.user.first_name }} {{ post.user.last_name }}</h5>
+                                    <a href="{% url 'user_profile' post.user.userprofile.id %}" style="text-decoration: none;">
+                                        <h5>{{ post.user.first_name }} {{ post.user.last_name }}</h5>
+                                    </a>
                                 </div>
                                 <h6 class="text-muted time">{{ post.date }}</h6>
                             </div>
