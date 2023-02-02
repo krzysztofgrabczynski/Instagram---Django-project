@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
-from .models import UserProfile, Post, Comment, Like
+from .models import UserProfile, Post, Comment, Like, Follow, User
 
 
 @login_required
@@ -77,8 +77,17 @@ def user_profile(request, id):
     posts = profile.user.posts.all().order_by('-date')
     comment_form = CommentForm()
     comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
-    
-    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids})
+
+    is_followed = None
+    for item in request.user.follower.all():
+        if item in profile.user.followed.all():
+            is_followed = True
+            break
+        else:
+            is_followed = False
+    #is_followed = True if any(request.user.follower.all() in profile.user.followed.all()) else False
+               
+    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids, 'is_followed': is_followed})
 
 
 @login_required
@@ -172,3 +181,29 @@ def thumb_up(request, id):
         post.save()
         
     return redirect('home')
+
+@login_required
+def follow(request, id):
+    user = request.user
+    followed_user = User.objects.get(id=id)
+    follow = Follow.objects.filter(followd_user_id=id).first()
+
+    if not follow in user.follower.all():
+        new_follow = Follow.objects.create(user=user, user_followed=followed_user ,followd_user_id=id)
+        new_follow.save()
+        user.userprofile.following_amount += 1
+        user.userprofile.save()
+        followed_user.userprofile.followers_amount += 1
+        followed_user.userprofile.save()
+    
+    return redirect('home')  
+
+
+@login_required
+def unfollow(request, id):
+    pass
+
+@login_required
+def search(request, id):
+    pass
+
