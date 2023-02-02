@@ -19,6 +19,15 @@
                       style="z-index: 1;">
                       <a class="nav-link" href="{% url 'edit_profile' user.userprofile.id %}">Edit profile</a>
                     </button>
+                  {% else %}
+                  <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                      style="z-index: 1;">
+                      {% if not is_followed %}
+                        <a class="nav-link" href="{% url 'follow' profile.user.id %}">Follow</a>
+                      {% else %}
+                        <a class="nav-link" href="#">Unfollow</a>
+                      {% endif %}
+                  </button>
                   {% endif %}
               </div>
               <div class="ms-3" style="margin-top: 130px;">
