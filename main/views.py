@@ -10,8 +10,9 @@ def home(request):
     posts = Post.objects.all().order_by('-date')
     comment_form = CommentForm()
     comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
-    
-    return render(request, 'home.html', {'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids})
+    likes_ids = Like.objects.filter(user=request.user).values_list('id', flat=True)
+
+    return render(request, 'home.html', {'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids, 'users_likes': likes_ids})
 
 
 def sign_up(request):
@@ -155,18 +156,19 @@ def delete_comment(request, id):
 
 @login_required
 def thumb_up(request, id):
+    user = request.user
     post = Post.objects.get(id=id)
-    
-    like = Like.objects.filter(post=post).first()
 
-    if not like:
+    for item in post.like_set.all():
+        if item in user.like_set.all():
+            item.delete()
+            post.likes -= 1
+            post.save()
+            break
+    else:   
         new_like = Like.objects.create(user=request.user, post=post)
         new_like.save()
         post.likes += 1
         post.save()
-    else:
-        like.delete()
-        post.likes -= 1
-        post.save()
-
+        
     return redirect('home')
