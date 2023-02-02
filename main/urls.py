@@ -1,5 +1,5 @@
 from django.urls import path
-from main.views import home, sign_up, edit_account, edit_profile, user_profile, add_post, add_comment, delete_comment, edit_post, delete_post, thumb_up
+from main.views import *
 from django.contrib.auth import views as auth_views
 
 
@@ -25,4 +25,10 @@ urlpatterns = [
     path('delete_comment/<int:id>', delete_comment, name='delete_comment'),
 
     path('thumb_up/<int:id>', thumb_up, name='thumb_up'),
+
+    path('search/<int:id>', search, name='search'),
+
+    path('follow/<int:id>', follow, name='follow'),
+    path('unfollow/<int:id>', unfollow, name='unfollow'),
+
 ]
