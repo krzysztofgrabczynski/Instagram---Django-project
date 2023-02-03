@@ -27,7 +27,7 @@ def sign_up(request):
             user_profile.save()
 
             login(request, user)
-            return redirect('home')
+            return redirect(home)
 
     user_registration_form = UserRegistrationForm()
     return render(request, 'registration/sign_up.html', {'form': user_registration_form})
@@ -103,7 +103,7 @@ def add_post(request):
         user.save()
         post.save()
 
-        return redirect('home')
+        return redirect(home)
 
     return render(request, 'add_post.html',  {'post_form': post_form})
 
@@ -122,7 +122,7 @@ def edit_post(request, id):
             post.user = user
             post.save()
 
-        return redirect('home')
+        return redirect(home)
 
     return render(request, 'edit_post.html', {'post_form': post_form})
 
@@ -136,7 +136,7 @@ def delete_post(request, id):
     user.userprofile.posts_amount -= 1
     user.userprofile.save()
     post.delete()
-    return redirect('home')
+    return redirect(home)
 
 @login_required
 def add_comment(request, post_id):
@@ -153,14 +153,14 @@ def add_comment(request, post_id):
             comment.user = user_profile.user
             comment.save()
             
-    return redirect('home')
+    return redirect(home)
 
     
 @login_required
 def delete_comment(request, id):
     comment = Comment.objects.get(id=id)
     comment.delete()
-    return redirect('home')
+    return redirect(home)
     
 
 @login_required
@@ -180,7 +180,7 @@ def thumb_up(request, id):
         post.likes += 1
         post.save()
         
-    return redirect('home')
+    return redirect(home)
 
 @login_required
 def follow(request, id):
@@ -196,12 +196,24 @@ def follow(request, id):
         followed_user.userprofile.followers_amount += 1
         followed_user.userprofile.save()
     
-    return redirect('home')  
-
+    return redirect(user_profile, id=followed_user.userprofile.id)  
 
 @login_required
 def unfollow(request, id):
-    pass
+    user = request.user
+    followed_user = User.objects.get(id=id)
+    follow = Follow.objects.filter(followd_user_id=id).first()
+
+    if follow in user.follower.all():
+        follow.delete()
+
+        user.userprofile.following_amount -= 1
+        user.userprofile.save()
+        followed_user.userprofile.followers_amount -= 1
+        followed_user.userprofile.save()
+
+    return redirect(user_profile, id=followed_user.userprofile.id)  
+
 
 @login_required
 def search(request, id):
