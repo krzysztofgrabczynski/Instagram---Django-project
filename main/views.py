@@ -3,11 +3,17 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post, Comment, Like, Follow, User
-
+from django.db.models import Q
 
 @login_required
 def home(request):
-    posts = Post.objects.all().order_by('-date')
+    user = request.user
+    
+    list_of_followers = [user]
+    for follow in user.follower.all():
+        list_of_followers.append(follow.user_followed)
+    
+    posts = Post.objects.filter(user__in=list_of_followers).order_by('-date')
     comment_form = CommentForm()
     comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
     likes_ids = Like.objects.filter(user=request.user).values_list('id', flat=True)
