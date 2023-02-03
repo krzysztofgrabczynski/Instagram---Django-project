@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post, Comment, Like, Follow, User
-from django.db.models import Q
+
 
 @login_required
 def home(request):
