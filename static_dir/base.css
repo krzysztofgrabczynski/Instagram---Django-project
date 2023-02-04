@@ -13,3 +13,11 @@
 .navbar-brand {
     margin-left: 20px;
 }
+
+#element {
+	display: inline-block;
+}
+
+#additional-content {
+	display: none;
+}
