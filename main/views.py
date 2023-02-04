@@ -223,6 +223,21 @@ def unfollow(request, id):
 
 
 @login_required
-def search(request, id):
-    pass
+def search(request):
+    if request.method == 'GET':        
+        username = request.GET.get('username_search')
+        try:
+            result = User.objects.get(username = username)
+        except:
+            result = None
+        
+        if result:
+            return redirect(user_profile, result.userprofile.id)    
+    
+    return redirect('home')
+    
+    
+    
+
+
 
