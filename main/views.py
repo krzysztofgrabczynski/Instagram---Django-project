@@ -208,11 +208,10 @@ def follow(request, id):
 def unfollow(request, id):
     user = request.user
     followed_user = User.objects.get(id=id)
-    follow = Follow.objects.filter(followd_user_id=id).first()
+    follow = Follow.objects.filter(followd_user_id=id).filter(user=user).first()
 
     if follow in user.follower.all():
         follow.delete()
-
         user.userprofile.following_amount -= 1
         user.userprofile.save()
         followed_user.userprofile.followers_amount -= 1
