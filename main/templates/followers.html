@@ -1,0 +1,13 @@
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('myModal1')">&times;</span>
+      <h2>Follower</h2>
+      <br>
+      {% for follow in followers_list %}
+        <a href="{% url 'user_profile' follow.user.userprofile.id %}" 
+           style="text-decoration: none; color: black; font-size: 20px;">
+           {{ follow.user.first_name }} {{ follow.user.last_name }}
+        </a>
+        {% endfor %}
+    </div>
+  </div>
