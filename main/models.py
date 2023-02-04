@@ -40,7 +40,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     post_img = models.ImageField(upload_to='posts_imgs', blank=False)
     description = models.TextField(default='')
-    date = models.DateTimeField(blank=False, auto_now=True)
+    date = models.DateTimeField(blank=False, auto_now_add=True)
     likes = models.IntegerField(default=0)
     
     def __str__(self) -> str:
