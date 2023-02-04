@@ -12,7 +12,7 @@
                         <div class="post-heading">
                             <div class="pull-left image">
                                 <a href="{% url 'user_profile' post.user.userprofile.id %}">
-                                    <img src="/media/{{ user.userprofile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
+                                    <img src="/media/{{ post.user.userprofile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
                                 </a>
                             </div>
                             <div class="pull-left meta">
@@ -61,7 +61,7 @@
                                 {% for comment in post.comments.all %}
                                 <li class="comment">
                                     <a class="pull-left" href="#">
-                                        <img class="avatar" src="{{ user.userprofile.profile_img.url }}" alt="avatar" style="border-radius: 50%;">
+                                        <img class="avatar" src="{{ comment.user.userprofile.profile_img.url }}" alt="avatar" style="border-radius: 50%;">
                                     </a>
                                     <div class="comment-body">
                                         <div class="comment-heading">
