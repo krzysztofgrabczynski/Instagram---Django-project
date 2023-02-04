@@ -84,6 +84,8 @@ def user_profile(request, id):
     comment_form = CommentForm()
     comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
 
+    followers_list = Follow.objects.filter(followd_user_id=id)
+
     is_followed = None
     for item in request.user.follower.all():
         if item in profile.user.followed.all():
@@ -93,7 +95,7 @@ def user_profile(request, id):
             is_followed = False
     #is_followed = True if any(request.user.follower.all() in profile.user.followed.all()) else False
                
-    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids, 'is_followed': is_followed})
+    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids, 'is_followed': is_followed, 'followers_list': followers_list})
 
 
 @login_required
