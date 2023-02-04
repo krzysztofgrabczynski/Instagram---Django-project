@@ -26,7 +26,7 @@ urlpatterns = [
 
     path('thumb_up/<int:id>', thumb_up, name='thumb_up'),
 
-    path('search/<int:id>', search, name='search'),
+    path('search/>', search, name='search'),
 
     path('follow/<int:id>', follow, name='follow'),
     path('unfollow/<int:id>', unfollow, name='unfollow'),
