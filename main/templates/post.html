@@ -60,14 +60,12 @@
                             <ul class="comments-list">
                                 {% for comment in post.comments.all %}
                                 <li class="comment">
-                                    <a class="pull-left" href="{% url 'user_profile' comment.user.userprofile.id %}">
+                                    <a class="pull-left" href="#">
                                         <img class="avatar" src="{{ comment.user.userprofile.profile_img.url }}" alt="avatar" style="border-radius: 50%;">
                                     </a>
                                     <div class="comment-body">
                                         <div class="comment-heading">
-                                            <a href="{% url 'user_profile' comment.user.userprofile.id %}" style="text-decoration: none;">
-                                                <h4 class="user " style="color: black;">{{ comment.user.first_name }} {{ comment.user.last_name }}</h4>
-                                            </a>     
+                                            <h4 class="user">{{ comment.user.first_name }} {{ comment.user.last_name }}</h4>
                                             <h5 class="time">{{ comment.date }}</h5>
                                         </div>
                                         <p style="display: inline-block; vertical-align: bottom;">{{ comment.text }}</p>
