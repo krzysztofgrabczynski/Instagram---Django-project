@@ -1,6 +1,8 @@
 {% load bootstrap %}
 
+
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
 
 {% for post in posts %}
 <div class="card mx-auto text-center my-5" style="width: 44rem;">
@@ -33,9 +35,12 @@
                                 <a href="{% url 'thumb_up' post.id %}" class="btn btn-default stat-item">
                                     <i class="fa-regular fa-thumbs-up"></i> {{ post.likes }}
                                 </a>
-                                <a href="#" class="btn btn-default stat-item">
-                                    <i class="fa fa-share icon"></i>128
-                                </a>
+                                
+                                {% include 'likes_list.html' %}
+                                <button class="btn btn-default stat-item" id="myBtn{{ post.id }}" onclick="openModal('myModal{{ post.id }}')">
+                                  <i class="fa-solid fa-list"></i>
+                                </button>
+
                                 {% if post.user == user %}
                                 <a href="{% url 'edit_post' post.id %}" class="btn btn-default"><i class="fas fa-edit"></i></a>
                                 <a href="{% url 'delete_post' post.id %}" class="btn btn-default"><i class="fa-sharp fa-solid fa-trash"></i></a>                                    
@@ -52,7 +57,7 @@
                                         {{ comment_form.text | bootstrap}} 
                                     </span>
                                     <button type="submit" class="btn btn-default" style="display: inline-block; vertical-align: bottom;">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fa-regular fa-comment-dots"></i>
                                     </button>                       
                                 </form>
                             </div>
