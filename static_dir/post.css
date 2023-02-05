@@ -55,6 +55,7 @@
   margin-top: 20px;
   text-align: left;
 }
+
 .post .post-description .stats .stat-item {
   display: inline-block;
   margin-right: 15px;
@@ -67,7 +68,7 @@
   border-top: 1px solid #ddd;
   padding: 15px;
 }
-.post .post-footer button:hover{
+button:hover{
   opacity: 0.8;
 }
 
