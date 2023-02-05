@@ -11,12 +11,14 @@
             <div class="col-md-12">
                 <div class="col-sm-12">
                     <div class="panel panel-white post panel-shadow">
-                        <div class="post-heading">
+
+                        <div class="post-heading">      <!-- User informations (img, name, post_date) -->
                             <div class="pull-left image">
                                 <a href="{% url 'user_profile' post.user.userprofile.id %}">
                                     <img src="/media/{{ post.user.userprofile.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
                                 </a>
                             </div>
+
                             <div class="pull-left meta">
                                 <div class="title h5">
                                     <a href="{% url 'user_profile' post.user.userprofile.id %}">
@@ -25,33 +27,35 @@
                                 </div>
                                 <h6 class="text-muted time">{{ post.date }}</h6>
                             </div>
-                        </div>
-                        <div class="post-image">
+                        </div>      <!-- User informations (img, name, post_date) -->
+
+                        <div class="post-image">        <!-- Post img -->
                             <img src="/media/{{ post.post_img }}" class="image" alt="image post">
-                        </div>
-                        <div class="post-description">
+                        </div>      <!-- Post img -->
+
+                        <div class="post-description">      <!-- Post description and icons (like, likes_list, edit, delete) -->
                             <p>{{ post.description }}</p>
                             <div class="stats">
                                 <a href="{% url 'thumb_up' post.id %}" class="btn btn-default stat-item">
                                     <i class="fa-regular fa-thumbs-up"></i> {{ post.likes }}
                                 </a>
                                 
-                                {% include 'likes_list.html' %}
+                                {% include 'likes_list.html' %}     <!-- Modal windowof the likes list under post -->
                                 <button class="btn btn-default stat-item" id="myBtn{{ post.id }}" onclick="openModal('myModal{{ post.id }}')">
                                   <i class="fa-solid fa-list"></i>
-                                </button>
+                                </button>       <!-- Modal windowof the likes list under post -->
 
-                                {% if post.user == user %}
+                                {% if post.user == user %}      
                                 <a href="{% url 'edit_post' post.id %}" class="btn btn-default"><i class="fas fa-edit"></i></a>
                                 <a href="{% url 'delete_post' post.id %}" class="btn btn-default"><i class="fa-sharp fa-solid fa-trash"></i></a>                                    
                                 {% endif %}  
                                                            
                             </div>
-                        </div>
+                        </div>      <!-- Post description and icons (like, likes_list, edit, delete) -->
+                        
                         <div class="post-footer">
-                            
                             <div class="input-group"> 
-                                <form method="post" action="{% url 'add_comment' post.id %}">
+                                <form method="post" action="{% url 'add_comment' post.id %}">  <!-- New comment functionality -->
                                     {% csrf_token %}
                                     <span  style="display: inline-block; vertical-align: top;">
                                         {{ comment_form.text | bootstrap}} 
@@ -59,10 +63,10 @@
                                     <button type="submit" class="btn btn-default" style="display: inline-block; vertical-align: bottom;">
                                         <i class="fa-regular fa-comment-dots"></i>
                                     </button>                       
-                                </form>
+                                </form>     <!-- New comment functionality -->
                             </div>
 
-                            <ul class="comments-list">
+                            <ul class="comments-list">      <!-- Printing all comments of the specific post with user information (img, name, comment_date)-->
                                 {% for comment in post.comments.all %}
                                 <li class="comment">
                                     <a class="pull-left" href="#">
@@ -75,20 +79,19 @@
                                         </div>
                                         <p>{{ comment.text }}</p>
 
-                                        {% if comment.id in users_comments %}
-                                        <a href="{% url  'delete_comment' comment.id %}"><i class="fa-sharp fa-solid fa-trash"></i></a>
-                                        {% endif %}
+                                        {% if comment.id in users_comments %}   <!-- Deleting comment if logged in user is the owner -->
+                                            <a href="{% url  'delete_comment' comment.id %}"><i class="fa-sharp fa-solid fa-trash"></i></a>
+                                        {% endif %}     <!-- Deleting comment if logged in user is the owner -->
                                     </div>
                                 </li>
                                 {% endfor %}
-                            </ul>
+                            </ul>       <!-- Printing all comments of the specific post with user information (img, name, comment_date)-->
 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
 {% endfor %}

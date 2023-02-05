@@ -9,8 +9,9 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-lg-9 col-xl-7">
           <div class="card">
-            <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
-              <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+            <div class="rounded-top text-white d-flex flex-row" style="background-color: #030303a9; height:200px;">
+
+              <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">    <!-- User informations section (img, name, gender) -->
                 <img src="{{ profile.profile_img.url }}" 
                   alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                   style="width: 150px; z-index: 1">
@@ -29,19 +30,21 @@
                       {% endif %}
                   </button>
                   {% endif %}
-              </div>
-              <div class="ms-3" style="margin-top: 130px;">
+              </div>    
+              <div class="ms-3" style="margin-top: 130px;">   
                 <h5>{{ profile.user.first_name }} {{ profile.user.last_name }} ({{ profile.user.username }})</h5>
                 <p>{{ gender }}</p>
-              </div>
-            </div>
-            <div class="p-4 text-black" style="background-color: #f8f9fa;">
+              </div>    
+            </div>    <!-- User informations section (img, name, gender) -->
+
+            <div class="p-4 text-black" style="background-color: #f8f9fa;">   <!-- User stats section (amount of the posts, followers, following) -->
               <div class="d-flex justify-content-end text-center py-1">
                 <div>
                   <p class="mb-1 h5">{{ profile.posts_amount }}</p>
                   <p class="small text-muted mb-0">Posts</p>
                 </div>
-                <div class="px-3">
+
+                <div class="px-3">    <!-- Modal windows -->
                   {% include 'followers.html' %}
                   <a href="#" id="myBtn1" onclick="openModal('myModal1')">
                     <p class="mb-1 h5">{{ profile.followers_amount }}</p>
@@ -54,10 +57,12 @@
                     <p class="mb-1 h5">{{ profile.following_amount }}</p>
                     <p class="small text-muted mb-0">Following</p>
                   </a>
-                </div>
+                </div>    <!-- Modal windows -->
+
               </div>
-            </div>
-            <div class="card-body p-4 text-black">
+            </div>    <!--User stats section (amount of the posts, followers, following) -->
+
+            <div class="card-body p-4 text-black">    <!-- User profile description, posts -->
               <div class="mb-5">
                 <p class="lead fw-normal mb-1">About</p>
                 <div class="p-4" style="background-color: #f8f9fa;">
@@ -66,12 +71,12 @@
               </div>
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <p class="lead fw-normal mb-0">Recent posts</p>
-                <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
               </div>
 
-              {% include 'post.html' %}
+              {% include 'post.html' %}   
 
-            </div>
+            </div>    <!-- User profile description, posts -->
+
           </div>
         </div>
       </div>
