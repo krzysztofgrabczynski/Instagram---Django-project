@@ -47,9 +47,13 @@
 }
 .post .post-description p {
   font-size: 14px;
+  text-align: left;
+  font-size: 18px;
+
 }
 .post .post-description .stats {
   margin-top: 20px;
+  text-align: left;
 }
 .post .post-description .stats .stat-item {
   display: inline-block;
@@ -57,11 +61,16 @@
 }
 .post .post-description .stats .stat-item .icon {
   margin-right: 8px;
+
 }
 .post .post-footer {
   border-top: 1px solid #ddd;
   padding: 15px;
 }
+.post .post-footer button:hover{
+  opacity: 0.8;
+}
+
 .post .post-footer .input-group-addon a {
   color: #454545;
 }
@@ -74,6 +83,7 @@
   display: block;
   width: 100%;
   margin: 20px 0;
+  
 }
 .post .post-footer .comments-list .comment .avatar {
   width: 35px;
@@ -82,6 +92,7 @@
 .post .post-footer .comments-list .comment .comment-heading {
   display: block;
   width: 100%;
+  text-align: left;
 }
 .post .post-footer .comments-list .comment .comment-heading .user {
   font-size: 14px;
@@ -98,6 +109,18 @@
 }
 .post .post-footer .comments-list .comment .comment-body {
   margin-left: 50px;
+  text-align: left;
+  
+
+}
+.post .post-footer .comments-list .comment .comment-body i {
+  font-size: 16px;
+  line-height: 0.1;
+  
+}
+.post .post-footer .comments-list .comment .comment-body p {
+  display: inline-block; 
+  margin-right: 10px;
 }
 .post .post-footer .comments-list .comment > .comments-list {
   margin-left: 50px;

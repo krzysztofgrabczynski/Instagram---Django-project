@@ -21,3 +21,16 @@
 #additional-content {
 	display: none;
 }
+
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    color: black;
+    opacity: 0.8;
+}
+
+i {
+    font-size: 20px;
+}

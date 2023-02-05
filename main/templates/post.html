@@ -17,7 +17,7 @@
                             </div>
                             <div class="pull-left meta">
                                 <div class="title h5">
-                                    <a href="{% url 'user_profile' post.user.userprofile.id %}" style="text-decoration: none;">
+                                    <a href="{% url 'user_profile' post.user.userprofile.id %}">
                                         <h5>{{ post.user.first_name }} {{ post.user.last_name }}</h5>
                                     </a>
                                 </div>
@@ -31,18 +31,16 @@
                             <p>{{ post.description }}</p>
                             <div class="stats">
                                 <a href="{% url 'thumb_up' post.id %}" class="btn btn-default stat-item">
-                                    <i class="fa fa-thumbs-up icon"></i>{{ post.likes }}
+                                    <i class="fa-regular fa-thumbs-up"></i> {{ post.likes }}
                                 </a>
                                 <a href="#" class="btn btn-default stat-item">
                                     <i class="fa fa-share icon"></i>128
                                 </a>
                                 {% if post.user == user %}
-                                <a href="{% url 'edit_post' post.id %}" class="btn btn-primary btn-sm primary-confirm" role="button" style="display: inline-block; vertical-align: top;">
-                                    Edit</a>
-                                <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm delete-confirm" role="button" style="display: inline-block; vertical-align: top;">
-                                    Delete</a>
-                                {% endif %}
-                                
+                                <a href="{% url 'edit_post' post.id %}" class="btn btn-default"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'delete_post' post.id %}" class="btn btn-default"><i class="fa-sharp fa-solid fa-trash"></i></a>                                    
+                                {% endif %}  
+                                                           
                             </div>
                         </div>
                         <div class="post-footer">
@@ -53,7 +51,9 @@
                                     <span  style="display: inline-block; vertical-align: top;">
                                         {{ comment_form.text | bootstrap}} 
                                     </span>
-                                    <button type="submit" class="btn btn-primary" style="display: inline-block; vertical-align: bottom;">Add</button>                       
+                                    <button type="submit" class="btn btn-default" style="display: inline-block; vertical-align: bottom;">
+                                        <i class="fas fa-edit"></i>
+                                    </button>                       
                                 </form>
                             </div>
 
@@ -68,11 +68,10 @@
                                             <h4 class="user">{{ comment.user.first_name }} {{ comment.user.last_name }}</h4>
                                             <h5 class="time">{{ comment.date }}</h5>
                                         </div>
-                                        <p style="display: inline-block; vertical-align: bottom;">{{ comment.text }}</p>
+                                        <p>{{ comment.text }}</p>
 
                                         {% if comment.id in users_comments %}
-                                        <a href="{% url  'delete_comment' comment.id %}" class="btn btn-danger btn-sm delete-confirm" role="button" style="display: inline-block; vertical-align: top;">
-                                            Delete</a>
+                                        <a href="{% url  'delete_comment' comment.id %}"><i class="fa-sharp fa-solid fa-trash"></i></a>
                                         {% endif %}
                                     </div>
                                 </li>

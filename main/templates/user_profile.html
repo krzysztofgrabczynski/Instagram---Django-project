@@ -43,14 +43,14 @@
                 </div>
                 <div class="px-3">
                   {% include 'followers.html' %}
-                  <a href="#" id="myBtn1" onclick="openModal('myModal1')" style="text-decoration: none; color: black">
+                  <a href="#" id="myBtn1" onclick="openModal('myModal1')">
                     <p class="mb-1 h5">{{ profile.followers_amount }}</p>
                     <p class="small text-muted mb-0">Followers</p>
                   </a>
                 </div>
                 <div>
                   {% include 'following.html' %}
-                  <a href="#" id="myBtn2" onclick="openModal('myModal2')" style="text-decoration: none; color: black">
+                  <a href="#" id="myBtn2" onclick="openModal('myModal2')">
                     <p class="mb-1 h5">{{ profile.following_amount }}</p>
                     <p class="small text-muted mb-0">Following</p>
                   </a>
