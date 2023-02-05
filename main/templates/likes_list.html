@@ -1,0 +1,13 @@
+<div id="myModal{{ post.id }}" class="modal">
+    <div class="modal-content" style="text-align: center;">
+      <span class="close" onclick="closeModal('myModal{{ post.id }}')">&times;</span>
+      <h2>Likes</h2>
+      {% for like in post.like_set.all %}
+      <a href="{% url 'user_profile' like.user.userprofile.id %}" style=" font-size: 20px;">
+        {{ like.user.first_name }} {{ like.user.last_name }}
+         
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
