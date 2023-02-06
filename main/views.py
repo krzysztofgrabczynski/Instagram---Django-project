@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post, Comment, Like, Follow, User
+from .context_managers import FollowContextManager, ThumbUpContexManager
 
 
 @login_required
@@ -16,9 +17,8 @@ def home(request):
     posts = Post.objects.filter(user__in=list_of_followers).order_by('-date')
     comment_form = CommentForm()
     comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
-    likes_ids = Like.objects.filter(user=request.user).values_list('id', flat=True)
     
-    return render(request, 'home.html', {'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids, 'users_likes': likes_ids})
+    return render(request, 'home.html', {'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids})
 
 
 def sign_up(request):
@@ -86,14 +86,8 @@ def user_profile(request, id):
 
     followers_list = Follow.objects.filter(followd_user_id=profile.user.id)
     
-    is_followed = None
-    for item in request.user.follower.all():
-        if item in profile.user.followed.all():
-            is_followed = True
-            break
-        else:
-            is_followed = False
-    #is_followed = True if any(request.user.follower.all() in profile.user.followed.all()) else False
+    with FollowContextManager(request.user, profile) as follow:
+        is_followed = follow.is_followed
                
     return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids, 'is_followed': is_followed, 'followers_list': followers_list})
 
@@ -176,18 +170,16 @@ def thumb_up(request, id):
     user = request.user
     post = Post.objects.get(id=id)
 
-    for item in post.like_set.all():
-        if item in user.like_set.all():
-            item.delete()
+    with ThumbUpContexManager(user, post) as manager:
+        if manager:
             post.likes -= 1
             post.save()
-            break
-    else:   
-        new_like = Like.objects.create(user=request.user, post=post)
-        new_like.save()
-        post.likes += 1
-        post.save()
-        
+        else:
+            new_like = Like.objects.create(user=request.user, post=post)
+            new_like.save()
+            post.likes += 1
+            post.save()
+
     return redirect(home)
 
 @login_required
