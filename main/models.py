@@ -20,7 +20,7 @@ class UserProfile(models.Model):
     following_amount = models.IntegerField(default=0)
 
     def __str__(self) -> str:
-        return f'Profile: {self.user.username}'
+        return f'Profile(id:{self.id}): {self.user.username}(id:{self.user.id})'
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -31,7 +31,7 @@ class Follow(models.Model):
     followd_user_id = models.PositiveIntegerField(blank=False, default=None)
 
     def __str__(self) -> str:
-        return f'Follow object of the: {self.user.username}'
+        return f'Follow(id:{self.id}): {self.user.username}(id:{self.user.id}) -----> {self.user_followed.username}(id:{self.user_followed.id})'
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -44,7 +44,7 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     
     def __str__(self) -> str:
-        return f'Post of the: {self.user.username}'
+        return f'Post of the: {self.user.username}(id:{self.id})'
     
     def __repr__(self) -> str:
         return self.__str__()
@@ -57,7 +57,7 @@ class Comment(models.Model):
     likes = models.IntegerField(default=0)
 
     def __str__(self) -> str:
-        return f'Comment of the: {self.user.username} under post of the: {self.post.user.username}'
+        return f'Comment(id:{self.id}) of the: {self.user.username}(id:{self.user.id}) under post(id:{self.post.id}) of the: {self.post.user.username}(id:{self.post.user.id})'
     
     def __repr__(self) -> str:
         return self.__str__()
@@ -65,10 +65,9 @@ class Comment(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self) -> str:
-        return f'Like of the: {self.user.username}'
+        return f'Like(id:{self.id}) of the: {self.user.username}(id:{self.user.id}) under post(id:{self.post.id}) of the: {self.post.user.username}'
     
     def __repr__(self) -> str:
         return self.__str__()
