@@ -5,7 +5,7 @@ This is my first project using Django. It's a simple social media site inspired 
 
 ## Features
 In this version, you can do some specific stuff, here is list of the most important features:
-- [x] firstly, if you have an account you have to log in or if you don't have, you can sign up
+- [x] [firstly, if you have an account you have to log in or if you don't have, you can sign up](#loggin-sign-up)
 - after you log in you have few options at start, by using navbar on the top:
   - [x] you can logout of course
   - [x] you can change some stuff e.g. edit password, edit account (name, email etc.), edit profile (gender, profile img, description)
@@ -22,6 +22,21 @@ In this version, you can do some specific stuff, here is list of the most import
  - [x] followers and following are also modal windows with a list of users and option to check their profiles by clicking on their names
 
 <br><br>
+
+
+
+# Loggin sign up
+
+
+
+
+
+
+
+
+
+
+
 
 
 If you want to check out my other projects [click here.](https://github.com/krzysztofgrabczynski)
