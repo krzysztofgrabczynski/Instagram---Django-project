@@ -71,7 +71,7 @@ Below, you can see profile with a sample profile image and description. Posts, F
 [Go to top](#top) 
 
 
-# Follow and unfollow provide 
+# Follow and unfollow 
 You can use the user search bar to find someone. All you have to do is enter the specific username you want to check and click "Search". Then, just click the 'Follow' under the user's profile image if you want to have that user's posts visible on your homepage. After clicking, Follow button will change to Unfollow button and number of followers will increase (of course, number of following on your profile will be also increased).
 <p  align="center">
 <img src="https://user-images.githubusercontent.com/90046128/217620147-e6acc7bc-2139-48e2-a083-7bfecfc35675.png  " width="420" height="420" /> | <img src="https://user-images.githubusercontent.com/90046128/217620155-ad75df8d-37ad-424e-9429-2981445f2250.png " width="420" height="420" />
