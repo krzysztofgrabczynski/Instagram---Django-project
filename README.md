@@ -79,8 +79,9 @@ In this version, you can do some specific stuff, here is list of the most import
 [Go to top](#top) 
 
 
+
 # Home page functionality
-![opis gifa](https://github.com/krzysztofgrabczynski/Gifs/blob/main/home_page.gif)
+![home_page](https://user-images.githubusercontent.com/90046128/217638004-cbe80f09-4247-4f32-90b2-a4c50b2f3d1d.gif)
 
 [Go to top](#top) 
 
