@@ -5,6 +5,14 @@
 
 This is my first project using Django. It's a simple social media site inspired by Instagram. 
 
+## Install for local use
+- Copy the repository
+- Create virtual environment using 'python -m venv venv' in project directory
+- Use '. venv/Scripts/activate' to activate the virtual environment
+- Install required packages by 'pip install -r requirements.txt'
+- Enter the 'python manage.py migrate --run-syncdb' to update migrations
+- Now, you can run the application with this: 'python manage.py runserver'
+- Everything done! You can open Instagram app in your browser by ctrl + left click on http link in your console
 
 ## Features
 In this version, you can do some specific stuff, here is list of the most important features:
@@ -16,7 +24,7 @@ In this version, you can do some specific stuff, here is list of the most import
     - [x] [if you find someone you are interesed in, you can follow him or unfollow](#follow-and-unfollow)
   - [x] also, you can move to the home page by clicking on the 'Instagram' and add new post
 - [x] on the profile you can see some dynamic information like number of posts, followers, following and your own posts
-- [home page functionality:](#home-page-functionality)
+- [homepage functionality:](#homepage-functionality)
   - [x] on the home page you can see your posts and posts of the followed users (posts are ordered by creation date)
 - [posts functionality:](#post-functionality)
   - [x] under the post you can click thumbs up and check the list of users who gave likes (list of likes is a modal window)
@@ -28,7 +36,7 @@ In this version, you can do some specific stuff, here is list of the most import
 
 
 
-# Loggin and sign up
+## Loggin and sign up
 Your first step using this application is to sign up. You have to fill all fields and set password according to the presented rules (password authentication is provided by Django).
 <p  align="center">
   <img src="https://user-images.githubusercontent.com/90046128/217618679-a96ca44d-50f7-4fd9-940a-dd87014625c8.png"/>
@@ -41,7 +49,7 @@ If you have an account, you can logg in. If you make any mistake, you will be in
 [Go to top](#top) 
   
   
-# User settings
+## User settings
 After loggin, you will se navbar menu with options like: logout, settings, profile, search and Instagram. When you click the settings button you will see dropwon menu with options to change data about your account.
 <p  align="center">
   <p  align="center">
@@ -71,7 +79,7 @@ Below, you can see profile with a sample profile image and description. Posts, F
 [Go to top](#top) 
 
 
-# Follow and unfollow 
+## Follow and unfollow 
 You can use the user search bar to find someone. All you have to do is enter the specific username you want to check and click "Search". Then, just click the 'Follow' under the user's profile image if you want to have that user's posts visible on your homepage. After clicking, Follow button will change to Unfollow button and number of followers will increase (of course, number of following on your profile will be also increased).
 <p  align="center">
 <img src="https://user-images.githubusercontent.com/90046128/217620147-e6acc7bc-2139-48e2-a083-7bfecfc35675.png  " width="420" height="420" /> | <img src="https://user-images.githubusercontent.com/90046128/217620155-ad75df8d-37ad-424e-9429-2981445f2250.png " width="420" height="420" />
@@ -80,19 +88,22 @@ You can use the user search bar to find someone. All you have to do is enter the
 [Go to top](#top) 
 
 
-# Home page functionality
+## Homepage functionality
+On the home page, you have several options such as adding a new post, navigate using the menu navbar at the top, and checking your posts and the users you follow. As you can see at gif below, user named Mary can scroll homepage through posts (own posts, and followed users).
 ![home_page](https://user-images.githubusercontent.com/90046128/217638004-cbe80f09-4247-4f32-90b2-a4c50b2f3d1d.gif)
 
 [Go to top](#top) 
 
 
-# Post functionality
-
+## Post functionality
+Any user can create posts. We can split a single post for two section. Main section with post image and icons - first icon is responsible for the thumbs up option, next one is a modal window with the list of users who gave thumb up, the next two icons appear only to the owner of the post and are responsible for the editing and deleting the post. Second section is the comments section. All users can leave a comment below the post and delete own comment.
 <p  align="center">
   <img src="https://user-images.githubusercontent.com/90046128/217635247-751556d7-b472-445c-b944-7d8da2bb83fd.png"/>
 </p>
 
 [Go to top](#top) 
+
+
 
 
 If you want to check out my other projects [click here.](https://github.com/krzysztofgrabczynski)
