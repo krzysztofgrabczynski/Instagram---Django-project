@@ -109,7 +109,5 @@ Any user can create posts. We can split a single post for two section. Main sect
   <img src="https://user-images.githubusercontent.com/90046128/217635247-751556d7-b472-445c-b944-7d8da2bb83fd.png"/>
 </p>
 
-<br><br><br><br>
-
 
 [Go to top](#top) 
