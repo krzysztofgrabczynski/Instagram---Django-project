@@ -3,7 +3,10 @@
 
 # <p align=center> <a name="top">Instagram---Django-project </a></p>  
 
-This is my first project using Django. It's a simple social media site inspired by Instagram. 
+## Description
+This is my first project using Django. It's a simple social media site inspired by Instagram. If you want to use this kind of Instagram, you have to sign up. Then, you have some options. You can follow someone if you want to see what posts that particular user is posting, you can add comment below any post and use thumb up option. All data changes dynamically. Bootstrap templates and partially ready-made html/css models were used in this application because the creation of this project is mainly focused on the backend functionalities using Django. 
+
+This app was created for educational purposes.
 
 ## Install for local use
 - Copy the repository
@@ -101,13 +104,9 @@ Any user can create posts. We can split a single post for two section. Main sect
   <img src="https://user-images.githubusercontent.com/90046128/217635247-751556d7-b472-445c-b944-7d8da2bb83fd.png"/>
 </p>
 
-[Go to top](#top) 
-
-
-
+<br><br><br><br>
 
 If you want to check out my other projects [click here.](https://github.com/krzysztofgrabczynski)
 
-<br><br>
 
 [Go to top](#top) 
