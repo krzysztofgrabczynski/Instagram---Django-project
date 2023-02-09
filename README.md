@@ -8,32 +8,39 @@ This is my first project using Django. It's a simple social media site inspired 
 
 This app was created for educational purposes.
 
+If you want to check out my other projects [click here.](https://github.com/krzysztofgrabczynski)
+
+## Preview
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/90046128/217864503-6da8f31e-a7a7-4ad5-9adc-1f9e1229245e.gif">
+</p>
+
+
 ## Install for local use
 - Copy the repository
-- Create virtual environment using 'python -m venv venv' in project directory
-- Use '. venv/Scripts/activate' to activate the virtual environment
-- Install required packages by 'pip install -r requirements.txt'
-- Enter the 'python manage.py migrate --run-syncdb' to update migrations
-- Now, you can run the application with this: 'python manage.py runserver'
+- Create virtual environment using ``` python -m venv venv ``` in project directory
+- Use ``` . venv/Scripts/activate ``` to activate the virtual environment
+- Install required packages by ``` pip install -r requirements.txt ```
+- Enter the ``` python manage.py migrate --run-syncdb ``` to update migrations
+- Now, you can run the application with this: ``` python manage.py runserver ```
 - Everything done! You can open Instagram app in your browser by ctrl + left click on http link in your console
+
+
 
 ## Features
 In this version, you can do some specific stuff, here is list of the most important features:
-- [x] [firstly, if you have an account you have to log in or if you don't have, you can sign up](#loggin-and-sign-up)
-- after you log in you have few options at start, by using navbar on the top:
-  - [x] you can logout of course
-  - [x] [you can change some stuff e.g. edit password, edit account (name, email etc.), edit profile (gender, profile img, description)](#user-settings)
-  - [x] you can search for a profile of someone else using search bar
-    - [x] [if you find someone you are interesed in, you can follow him or unfollow](#follow-and-unfollow)
-  - [x] also, you can move to the home page by clicking on the 'Instagram' and add new post
-- [x] on the profile you can see some dynamic information like number of posts, followers, following and your own posts
+- [x] [log in on account or if you don't have, sign up](#loggin-and-sign-up)
+- [x] [change some stuff e.g. edit password, edit account (name, email etc.), edit profile (gender, profile img, description)](#user-settings)
+- [x] search for a profile of someone else using search bar
+  - [x] [then, follow specific user or unfollow](#follow-and-unfollow)
+- [x] move to the home page by clicking on the 'Instagram' and add new post
+- [x] on the profile check some dynamic information like number of posts, followers, following and your own posts
 - [homepage functionality:](#homepage-functionality)
-  - [x] on the home page you can see your posts and posts of the followed users (posts are ordered by creation date)
+  - [x] on the home page you can see your posts and posts of the followed users
 - [posts functionality:](#post-functionality)
-  - [x] under the post you can click thumbs up and check the list of users who gave likes (list of likes is a modal window)
-  - [x] if you are the owner of the post, you can delete the post or edit (this options will be shown only for post owner)
-  - [x] the obvious option is to make a comment, your comment will be show below the post with your personal data, date of creation and deletion option
- - [x] followers and following are also modal windows with a list of users and option to check their profiles by clicking on their names](#modal-windows)
+  - [x] use thumbs up option under the post and check the list of users who gave likes
+  - [x] owners of the posts, can delete the post or edit (this options will be shown only for post owner)
+  - [x] make a comment, it will be show below the post with your personal data, date of creation and deletion option
 
 <br><br>
 
@@ -83,16 +90,14 @@ Below, you can see profile with a sample profile image and description. Posts, F
 
 
 ## Follow and unfollow 
-You can use the user search bar to find someone. All you have to do is enter the specific username you want to check and click "Search". Then, just click the 'Follow' under the user's profile image if you want to have that user's posts visible on your homepage. After clicking, Follow button will change to Unfollow button and number of followers will increase (of course, number of following on your profile will be also increased).
-<p  align="center">
-<img src="https://user-images.githubusercontent.com/90046128/217620147-e6acc7bc-2139-48e2-a083-7bfecfc35675.png  " width="420" height="420" /> | <img src="https://user-images.githubusercontent.com/90046128/217620155-ad75df8d-37ad-424e-9429-2981445f2250.png " width="420" height="420" />
-</p>
+You can use the user search bar to find someone. All you have to do is enter the specific username you want to check and click "Search". Then, just click the 'Follow' under the user's profile image if you want to have that user's posts visible on your homepage. After clicking, Follow button will change to Unfollow button and number of followers will increase. You can check followers and following by clicking on the dynamic numbers on the user profile (it will be shown as modal window with users names)
+
 
 [Go to top](#top) 
 
 
 ## Homepage functionality
-On the home page, you have several options such as adding a new post, navigate using the menu navbar at the top, and checking your posts and the users you follow. As you can see at gif below, user named Mary can scroll homepage through posts (own posts, and followed users).
+On the home page, you have several options such as adding a new post, navigate using the menu navbar at the top, and checking your posts and the users you follow (posts are ordered by creation date). As you can see at gif below, user named Mary can scroll homepage through posts (own posts, and followed users).
 ![home_page](https://user-images.githubusercontent.com/90046128/217638004-cbe80f09-4247-4f32-90b2-a4c50b2f3d1d.gif)
 
 [Go to top](#top) 
@@ -105,8 +110,6 @@ Any user can create posts. We can split a single post for two section. Main sect
 </p>
 
 <br><br><br><br>
-
-If you want to check out my other projects [click here.](https://github.com/krzysztofgrabczynski)
 
 
 [Go to top](#top) 
