@@ -28,12 +28,14 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def test_views_sign_up_GET(self):
+        self.client.logout()
         response = self.client.get(reverse('sign_up'))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/sign_up.html')
 
     def test_views_sign_up_POST_correct_data(self):
+        self.client.logout()
         response = self.client.post(reverse('sign_up'), {
             'username': 'Johnny', 
             'first_name': 'John',
@@ -48,6 +50,7 @@ class TestViews(TestCase):
         self.assertEqual(UserProfile.objects.get(id=2).user.username, 'Johnny')
 
     def test_views_sign_up_POST_incorrect_data(self):
+        self.client.logout()
         response = self.client.post(reverse('sign_up'))
 
         self.assertEqual(response.status_code, 200)
