@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post, Comment, Like, Follow, User
 from .context_managers import FollowContextManager, ThumbUpContexManager
@@ -22,6 +22,8 @@ def home(request):
 
 
 def sign_up(request):
+    if request.user.is_authenticated:
+        return redirect(home)
     if request.method == 'POST':
         user_registration_form = UserRegistrationForm(request.POST or None)
         user_profile_form = UserProfileForm()
