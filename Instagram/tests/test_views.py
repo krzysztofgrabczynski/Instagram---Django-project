@@ -68,4 +68,54 @@ class TestViews(TestCase):
         response = self.client.get(reverse('edit_account', args=[2]))
         
         self.assertEqual(response.status_code, 302)
+
+    def test_views_edit_account_POST(self):
+        response = self.client.post(reverse('edit_account', args=[1]), {
+            'username': 'Johnny',
+            'first_name': 'John',
+            'last_name': 'Smith',
+            'email': 'john@example.com'
+        })
+
+        user = User.objects.get(id=1)
+
+        self.assertEqual(response.status_code, 302) 
+        self.assertEqual(user.username, 'Johnny')
+        self.assertEqual(user.first_name, 'John')
+        self.assertEqual(user.last_name, 'Smith')
+        self.assertEqual(user.email, 'john@example.com')
+
+    def test_views_edit_profile_GET(self):
+        response = self.client.get(reverse('edit_profile', args=[1]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'settings/edit_profile.html')
+
+    def test_views_edit_profile_POST_correct_data(self):
+        response = self.client.post(reverse('edit_profile', args=[1]), {
+            'gender': '1',
+            'description': 'Testing',
+            'profile_img': 'profile_imgs/default_male.jpg'
+
+        })
+
+        user_profile = UserProfile.objects.get(id=1)
+
+        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(user_profile.gender, 1)
+        self.assertEqual(user_profile.description, 'Testing')
+        self.assertEqual(user_profile.profile_img, 'profile_imgs/default_male.jpg')
+
+    def test_views_edit_profile_POST_incorrect_data(self):
+        response = self.client.post(reverse('edit_profile', args=[1]))
+
+        user_profile = UserProfile.objects.get(id=1)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'settings/edit_profile.html')
+
+        self.assertEqual(user_profile.gender, 0)
+        self.assertEqual(user_profile.description, '')
+        self.assertEqual(user_profile.profile_img, 'profile_imgs/default_male.jpg')
         
