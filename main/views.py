@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
@@ -43,7 +43,10 @@ def sign_up(request):
 
 @login_required
 def edit_account(request, id):
-    profile = UserProfile.objects.get(id=id)
+    if request.user.id != id:
+        return redirect(home)
+    
+    profile = UserProfile.objects.get(id=id) 
     user = profile.user
     
     user_form = UserRegistrationForm(instance=user)
