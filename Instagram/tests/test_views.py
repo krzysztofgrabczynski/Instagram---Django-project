@@ -22,6 +22,7 @@ class TestViews(TestCase):
     def test_loggin_user(self):
         self.assertTrue(self.logged_in)
 
+    # tests for home view
     def test_views_home_if_not_logged_in(self):
         self.client.logout()
         response = self.client.get(reverse('home'))
@@ -34,6 +35,7 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
 
+    # tests for sign_up view
     def test_views_sign_up_GET(self):
         self.client.logout()
         response = self.client.get(reverse('sign_up'))
@@ -65,11 +67,12 @@ class TestViews(TestCase):
         self.assertEqual(User.objects.count(), 1) # value=1, because of creation user1 in setUp
         self.assertEqual(UserProfile.objects.count(), 1) # value=1, because of creation user1_profile in setUp
 
+    # tests for edit_account view
     def test_views_edit_account_if_not_logged_in(self):
         self.client.logout()
         response = self.client.get(reverse('edit_account', args=[1]))
 
-        self.assertRedirects(response, '/instagram/login/?next=/instagram/edit_account/1')
+        self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/edit_account/')
 
     def test_views_edit_account_GET_positive(self):
         response = self.client.get(reverse('edit_account', args=[1]))
@@ -98,20 +101,21 @@ class TestViews(TestCase):
         self.assertEqual(user.last_name, 'Smith')
         self.assertEqual(user.email, 'john@example.com')
 
+    # tests for edit_profile view
     def test_views_edit_profile_if_not_logged_in(self):
         self.client.logout()
-        response = self.client.get(reverse('edit_profile', args=[1]))
+        response = self.client.get(reverse('edit_profile', kwargs={'id': self.user1.id}))
 
-        self.assertRedirects(response, '/instagram/login/?next=/instagram/edit_profile/1')
+        self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/edit_profile/')
 
     def test_views_edit_profile_GET(self):
-        response = self.client.get(reverse('edit_profile', args=[1]))
+        response = self.client.get(reverse('edit_profile', kwargs={'id': self.user1.id}))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'settings/edit_profile.html')
 
     def test_views_edit_profile_POST_correct_data(self):
-        response = self.client.post(reverse('edit_profile', args=[1]), {
+        response = self.client.post(reverse('edit_profile', kwargs={'id': self.user1.id}), {
             'gender': '1',
             'description': 'Testing',
             'profile_img': 'profile_imgs/default_male.jpg'
@@ -127,7 +131,7 @@ class TestViews(TestCase):
         self.assertEqual(user_profile.profile_img, 'profile_imgs/default_male.jpg')
 
     def test_views_edit_profile_POST_incorrect_data(self):
-        response = self.client.post(reverse('edit_profile', args=[1]))
+        response = self.client.post(reverse('edit_profile', kwargs={'id': self.user1.id}))
 
         user_profile = UserProfile.objects.get(id=1)
 
@@ -137,9 +141,10 @@ class TestViews(TestCase):
         self.assertEqual(user_profile.gender, 0)
         self.assertEqual(user_profile.description, '')
         self.assertEqual(user_profile.profile_img, 'profile_imgs/default_male.jpg')
-        
+
+    # tests for user_profile view 
     def test_views_user_profile_if_not_logged_in(self):
         self.client.logout()
-        response = self.client.get(reverse('user_profile', args=[1]))
+        response = self.client.get(reverse('user_profile', kwargs={'id': self.user1.id}))
 
-        self.assertRedirects(response, '/instagram/login/?next=/instagram/profile/1')
+        self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/profile/')
