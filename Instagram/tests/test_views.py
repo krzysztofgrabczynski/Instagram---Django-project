@@ -57,3 +57,15 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'registration/sign_up.html')
         self.assertEqual(User.objects.count(), 1) # value=1, because of creation user1 in setUp
         self.assertEqual(UserProfile.objects.count(), 1) # value=1, because of creation user1_profile in setUp
+
+    def test_views_edit_account_GET_positive(self):
+        response = self.client.get(reverse('edit_account', args=[1]))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'settings/edit_account.html')
+
+    def test_views_edit_account_GET_negative(self):
+        response = self.client.get(reverse('edit_account', args=[2]))
+        
+        self.assertEqual(response.status_code, 302)
+        
