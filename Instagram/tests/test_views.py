@@ -16,10 +16,17 @@ class TestViews(TestCase):
             password='PasswordExample123!'
         )
         self.user1_profile = UserProfile.objects.create(user=self.user1)
+
         self.logged_in = self.client.login(username=self.user1.username, password='PasswordExample123!')
 
     def test_loggin_user(self):
         self.assertTrue(self.logged_in)
+
+    def test_views_home_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('home'))
+
+        self.assertRedirects(response, '/instagram/login/?next=/instagram/')
 
     def test_views_home_GET(self):
         response = self.client.get(reverse('home'))
@@ -58,6 +65,12 @@ class TestViews(TestCase):
         self.assertEqual(User.objects.count(), 1) # value=1, because of creation user1 in setUp
         self.assertEqual(UserProfile.objects.count(), 1) # value=1, because of creation user1_profile in setUp
 
+    def test_views_edit_account_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('edit_account', args=[1]))
+
+        self.assertRedirects(response, '/instagram/login/?next=/instagram/edit_account/1')
+
     def test_views_edit_account_GET_positive(self):
         response = self.client.get(reverse('edit_account', args=[1]))
         
@@ -84,6 +97,12 @@ class TestViews(TestCase):
         self.assertEqual(user.first_name, 'John')
         self.assertEqual(user.last_name, 'Smith')
         self.assertEqual(user.email, 'john@example.com')
+
+    def test_views_edit_profile_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('edit_profile', args=[1]))
+
+        self.assertRedirects(response, '/instagram/login/?next=/instagram/edit_profile/1')
 
     def test_views_edit_profile_GET(self):
         response = self.client.get(reverse('edit_profile', args=[1]))
@@ -119,3 +138,8 @@ class TestViews(TestCase):
         self.assertEqual(user_profile.description, '')
         self.assertEqual(user_profile.profile_img, 'profile_imgs/default_male.jpg')
         
+    def test_views_user_profile_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('user_profile', args=[1]))
+
+        self.assertRedirects(response, '/instagram/login/?next=/instagram/profile/1')
