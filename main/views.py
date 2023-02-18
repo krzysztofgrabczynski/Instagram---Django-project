@@ -18,7 +18,12 @@ def home(request):
     comment_form = CommentForm()
     comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
     
-    return render(request, 'home.html', {'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids})
+    context = {
+        'posts': posts, 
+        'comment_form': comment_form, 
+        'users_comments': comments_ids
+    }
+    return render(request, 'home.html', context)
 
 
 def sign_up(request):
@@ -38,7 +43,10 @@ def sign_up(request):
             return redirect(home)
 
     user_registration_form = UserRegistrationForm()
-    return render(request, 'registration/sign_up.html', {'form': user_registration_form})
+    context = {
+        'form': user_registration_form
+    }
+    return render(request, 'registration/sign_up.html', context)
 
 
 @login_required
@@ -65,7 +73,10 @@ def edit_account(request, id):
 
         return redirect(home)
 
-    return render(request, 'settings/edit_account.html', {'user_form': user_form})
+    context = {
+        'user_form': user_form
+    }
+    return render(request, 'settings/edit_account.html', context)
 
 @login_required
 def edit_profile(request, id):
@@ -78,7 +89,10 @@ def edit_profile(request, id):
         
         return redirect(user_profile, id)
 
-    return render(request, 'settings/edit_profile.html', {'profile': profile_form})
+    context = {
+        'profile': profile_form
+    }
+    return render(request, 'settings/edit_profile.html', context)
 
 
 @login_required
@@ -93,8 +107,18 @@ def user_profile(request, id):
     
     with FollowContextManager(request.user, profile) as follow:
         is_followed = follow.is_followed
-               
-    return render(request, 'user_profile.html', {'profile': profile, 'gender': gender, 'posts': posts, 'comment_form': comment_form, 'users_comments': comments_ids, 'is_followed': is_followed, 'followers_list': followers_list})
+    
+    context = {
+        'profile': profile, 
+        'gender': gender, 
+        'posts': posts, 
+        'comment_form': comment_form, 
+        'users_comments': comments_ids, 
+        'is_followed': is_followed, 
+        'followers_list': followers_list
+    }
+
+    return render(request, 'user_profile.html', context)
 
 
 @login_required
@@ -112,7 +136,10 @@ def add_post(request):
 
         return redirect(home)
 
-    return render(request, 'add_post.html',  {'post_form': post_form})
+    context = {
+        'post_form': post_form
+    }
+    return render(request, 'add_post.html',  context)
 
 @login_required
 def edit_post(request, id):
@@ -131,7 +158,10 @@ def edit_post(request, id):
 
         return redirect(home)
 
-    return render(request, 'edit_post.html', {'post_form': post_form})
+    context = {
+        'post_form': post_form
+    }
+    return render(request, 'edit_post.html', context)
 
 @login_required
 def delete_post(request, id):
