@@ -2,22 +2,20 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from main.models import UserProfile, Follow, Post, Comment, Like
 from django.contrib.auth.models import User
-import json
 
 
 class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user1 = User.objects.create_user(
+        self.test_user_1 = User.objects.create_user(
             username='David', 
             first_name='David',
             last_name='Jones',
             email='david@example.com',
             password='PasswordExample123!'
         )
-        self.user1_profile = UserProfile.objects.create(user=self.user1)
-
-        self.logged_in = self.client.login(username=self.user1.username, password='PasswordExample123!')
+        self.test_user_1_profile = UserProfile.objects.create(user=self.test_user_1)
+        self.logged_in = self.client.login(username=self.test_user_1.username, password='PasswordExample123!')
 
     def test_loggin_user(self):
         self.assertTrue(self.logged_in)
@@ -35,6 +33,26 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
 
+    def test_views_home_context(self):
+        test_user_2 = User.objects.create_user(
+            username='test_username_1', 
+            first_name='test_first_name_1',
+            last_name='test_last_name_1',
+            email='test1@example.com',
+            password='PasswordExample123!'
+        )
+        test_user_2_profile = UserProfile.objects.create(user=test_user_2)
+        test_post = Post.objects.create(user=test_user_2, description='test description')
+        Follow.objects.create(user=self.test_user_1, user_followed=test_user_2, followd_user_id=test_user_2.id)
+        test_comment = Comment.objects.create(post=test_post, user=self.test_user_1, text='test comment')
+
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual(response.context['posts'].first(), Post.objects.first())
+        self.assertEqual(test_post.description, 'test description')
+        self.assertEqual(response.context['users_comments'].first(), 1)
+        self.assertEqual(test_comment.text, 'test comment')
+        
     # tests for sign_up view
     def test_views_sign_up_GET(self):
         self.client.logout()
@@ -104,18 +122,18 @@ class TestViews(TestCase):
     # tests for edit_profile view
     def test_views_edit_profile_if_not_logged_in(self):
         self.client.logout()
-        response = self.client.get(reverse('edit_profile', kwargs={'id': self.user1.id}))
+        response = self.client.get(reverse('edit_profile', kwargs={'id': self.test_user_1.id}))
 
         self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/edit_profile/')
 
     def test_views_edit_profile_GET(self):
-        response = self.client.get(reverse('edit_profile', kwargs={'id': self.user1.id}))
+        response = self.client.get(reverse('edit_profile', kwargs={'id': self.test_user_1.id}))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'settings/edit_profile.html')
 
     def test_views_edit_profile_POST_correct_data(self):
-        response = self.client.post(reverse('edit_profile', kwargs={'id': self.user1.id}), {
+        response = self.client.post(reverse('edit_profile', kwargs={'id': self.test_user_1.id}), {
             'gender': '1',
             'description': 'Testing',
             'profile_img': 'profile_imgs/default_male.jpg'
@@ -131,7 +149,7 @@ class TestViews(TestCase):
         self.assertEqual(user_profile.profile_img, 'profile_imgs/default_male.jpg')
 
     def test_views_edit_profile_POST_incorrect_data(self):
-        response = self.client.post(reverse('edit_profile', kwargs={'id': self.user1.id}))
+        response = self.client.post(reverse('edit_profile', kwargs={'id': self.test_user_1.id}))
 
         user_profile = UserProfile.objects.get(id=1)
 
@@ -145,6 +163,6 @@ class TestViews(TestCase):
     # tests for user_profile view 
     def test_views_user_profile_if_not_logged_in(self):
         self.client.logout()
-        response = self.client.get(reverse('user_profile', kwargs={'id': self.user1.id}))
+        response = self.client.get(reverse('user_profile', kwargs={'id': self.test_user_1.id}))
 
         self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/profile/')
