@@ -126,6 +126,11 @@ class TestViews(TestCase):
 
         self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/edit_profile/')
 
+    def test_views_edit_profile_GET_404(self):
+        response = self.client.get(reverse('edit_profile', kwargs={'id': 2}))
+
+        self.assertEqual(response.status_code, 404)
+
     def test_views_edit_profile_GET(self):
         response = self.client.get(reverse('edit_profile', kwargs={'id': self.test_user_1.id}))
 
