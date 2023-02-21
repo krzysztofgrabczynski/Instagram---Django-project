@@ -91,7 +91,7 @@ class TestViews(TestCase):
         self.client.logout()
         response = self.client.get(reverse('edit_account', args=[1]))
 
-        self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/edit_account/')
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/edit_account/'))
 
     def test_views_edit_account_GET_positive(self):
         response = self.client.get(reverse('edit_account', args=[1]))
@@ -125,7 +125,7 @@ class TestViews(TestCase):
         self.client.logout()
         response = self.client.get(reverse('edit_profile', kwargs={'id': self.test_user_1.id}))
 
-        self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/edit_profile/')
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/edit_profile/'))
 
     def test_views_edit_profile_GET_404(self):
         response = self.client.get(reverse('edit_profile', kwargs={'id': 10}))
@@ -169,7 +169,7 @@ class TestViews(TestCase):
         self.client.logout()
         response = self.client.get(reverse('user_profile', kwargs={'id': self.test_user_1.id}))
 
-        self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/profile/')
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/profile/'))
 
     def test_views_user_profile_GET(self):
         response = self.client.get(reverse('user_profile', kwargs={'id': self.test_user_1.id}))
@@ -206,7 +206,7 @@ class TestViews(TestCase):
             self.client.logout()
             response = self.client.get(reverse('add_post'))
 
-            self.assertTrue(response.url.startswith, '/instagram/login/?next=/instagram/profile/add_post')
+            self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/add_post'))
 
     def test_view_add_post_GET(self):
         response = self.client.get(reverse('add_post'))
@@ -228,6 +228,48 @@ class TestViews(TestCase):
             self.assertEqual(post.description, 'post test description')
             self.assertEqual(self.test_user_1_profile.posts_amount, self.test_user_1.posts.count())
 
-    
+    # test for add_post view
+    def test_view_edit_post_if_not_logged_in(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        self.client.logout()
+        response = self.client.get(reverse('edit_post', kwargs={'id': test_post.id})) 
 
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/edit_post'))     
+
+    def test_view_edit_post_GET(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        response = self.client.get(reverse('edit_post', kwargs={'id': test_post.id}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'edit_post.html')
+
+    def test_view_edit_post_404(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        response = self.client.get(reverse('edit_post', kwargs={'id': 2}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_view_edit_post_if_logged_user_is_post_owner(self):
+        test_post = Post.objects.create(user=self.test_user_2, description='test description')
+        response = self.client.get(reverse('edit_post', kwargs={'id': test_post.id}))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_edit_post_POST_positive(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        with open('media_dir\posts_imgs\david_brown_post_1.jpg', 'rb') as img:
+            response = self.client.post(reverse('edit_post', kwargs={'id': test_post.id}), {
+                'post_img': img,
+                'description': 'after editing'
+            })
+        test_post.refresh_from_db()
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(test_post.description, 'after editing')
+    
+    def test_view_edit_post_POST_negative(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        response = self.client.post(reverse('edit_post', kwargs={'id': test_post.id}))
+
+        self.assertEqual(response.status_code, 200)
     
