@@ -230,9 +230,8 @@ class TestViews(TestCase):
 
     # test for add_post view
     def test_view_edit_post_if_not_logged_in(self):
-        test_post = Post.objects.create(user=self.test_user_1, description='test description')
         self.client.logout()
-        response = self.client.get(reverse('edit_post', kwargs={'id': test_post.id})) 
+        response = self.client.get(reverse('edit_post', kwargs={'id': 1})) 
 
         self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/edit_post'))     
 
@@ -275,9 +274,8 @@ class TestViews(TestCase):
     
     # test for delete_post view
     def test_view_delete_post_if_not_logged_in(self):
-        test_post = Post.objects.create(user=self.test_user_1, description='test description')
         self.client.logout()
-        response = self.client.get(reverse('delete_post', kwargs={'id': test_post.id})) 
+        response = self.client.get(reverse('delete_post', kwargs={'id': 1})) 
 
         self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/delete_post'))  
 
@@ -293,8 +291,48 @@ class TestViews(TestCase):
         self.test_user_1_profile.save()
         
         self.client.get(reverse('delete_post', kwargs={'id': test_post.id}))
-        
+
         self.test_user_1_profile.refresh_from_db()
         
         self.assertEqual(self.test_user_1_profile.posts_amount, 0)
         self.assertEqual(Post.objects.all().count(), 0)
+
+    # test for add_comment view
+    def test_view_add_comment_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('add_comment', kwargs={'post_id': 1})) 
+
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/add_comment')) 
+
+    def test_view_add_comment_POST_with_data(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        response = self.client.post(reverse('add_comment', kwargs={'post_id': test_post.id}), {
+            'text': 'test description'
+        })
+        
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Comment.objects.all().count(), 1)
+        self.assertEqual(test_post.comments.first().text, 'test description')
+        self.assertEqual(self.test_user_1.comments.first().text, 'test description')
+
+    def test_view_add_comment_POST_without_data(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        response = self.client.post(reverse('add_comment', kwargs={'post_id': test_post.id}), {})
+        
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Comment.objects.all().count(), 0)
+
+    # test for delete_comment view
+    def test_view_delete_comment_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('delete_comment', kwargs={'id': 1})) 
+
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/delete_comment'))
+
+    def test_view_delete_comment(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        test_comment = Comment.objects.create(post=test_post, user=self.test_user_1)
+        response = self.client.get(reverse('delete_comment', kwargs={'id': test_comment.id})) 
+
+        self.assertEqual(response.status_code, 302) 
+        self.assertEqual(Comment.objects.all().count(), 0)
