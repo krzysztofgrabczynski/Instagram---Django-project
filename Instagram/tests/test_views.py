@@ -336,3 +336,39 @@ class TestViews(TestCase):
 
         self.assertEqual(response.status_code, 302) 
         self.assertEqual(Comment.objects.all().count(), 0)
+
+    # test for thumb_up view
+    def test_view_thumb_up_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('thumb_up', kwargs={'id': 1})) 
+
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/thumb_up'))
+
+    def test_view_thumb_up_with_no_like_under_post(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        response = self.client.get(reverse('thumb_up', kwargs={'id': test_post.id}))
+        test_post.refresh_from_db()
+        
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Like.objects.all().count(), 1)
+        self.assertEqual(test_post.likes, 1)
+        self.assertEqual(test_post.like_set.first(), self.test_user_1.like_set.first())
+
+    def test_view_thumb_up_with_like_under_post(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        Like.objects.create(user=self.test_user_1, post=test_post)
+        test_post.likes += 1
+        test_post.save()
+
+        self.assertEqual(test_post.likes, 1)
+        self.assertEqual(Like.objects.all().count(), 1)
+        self.assertEqual(test_post.like_set.first(), self.test_user_1.like_set.first())
+
+        response = self.client.get(reverse('thumb_up', kwargs={'id': test_post.id}))
+
+        test_post.refresh_from_db()
+        
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Like.objects.all().count(), 0)
+        self.assertEqual(test_post.likes, 0)
+    
