@@ -156,7 +156,7 @@ def edit_post(request, id):
             post.user = user
             post.save()
 
-        return redirect(home)
+            return redirect(home)
 
     context = {
         'post_form': post_form
