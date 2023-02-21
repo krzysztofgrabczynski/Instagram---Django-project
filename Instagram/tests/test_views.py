@@ -273,3 +273,28 @@ class TestViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
     
+    # test for delete_post view
+    def test_view_delete_post_if_not_logged_in(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        self.client.logout()
+        response = self.client.get(reverse('delete_post', kwargs={'id': test_post.id})) 
+
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/delete_post'))  
+
+    def test_view_delete_post_if_logged_user_is_post_owner(self):
+        test_post = Post.objects.create(user=self.test_user_2, description='test description')
+        response = self.client.get(reverse('delete_post', kwargs={'id': test_post.id}))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_delete_post(self):
+        test_post = Post.objects.create(user=self.test_user_1, description='test description')
+        self.test_user_1_profile.posts_amount += 1
+        self.test_user_1_profile.save()
+        
+        self.client.get(reverse('delete_post', kwargs={'id': test_post.id}))
+        
+        self.test_user_1_profile.refresh_from_db()
+        
+        self.assertEqual(self.test_user_1_profile.posts_amount, 0)
+        self.assertEqual(Post.objects.all().count(), 0)
