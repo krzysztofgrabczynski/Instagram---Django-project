@@ -185,7 +185,6 @@ def add_comment(request, post_id):
 
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
-            print(post_id)
             comment.post = posts.get(id=post_id)
             comment.user = user_profile.user
             comment.save()
