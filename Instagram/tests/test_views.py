@@ -372,3 +372,11 @@ class TestViews(TestCase):
         self.assertEqual(Like.objects.all().count(), 0)
         self.assertEqual(test_post.likes, 0)
     
+    # test for follow view
+    def test_view_follow_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('follow', kwargs={'id': 1})) 
+
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/follow'))
+
+        
