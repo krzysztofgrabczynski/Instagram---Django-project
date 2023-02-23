@@ -295,7 +295,7 @@ class TestViews(TestCase):
         self.test_user_1_profile.refresh_from_db()
         
         self.assertEqual(self.test_user_1_profile.posts_amount, 0)
-        self.assertEqual(Post.objects.all().count(), 0)
+        self.assertEqual(Post.objects.count(), 0)
 
     # test for add_comment view
     def test_view_add_comment_if_not_logged_in(self):
@@ -311,7 +311,7 @@ class TestViews(TestCase):
         })
         
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(Comment.objects.all().count(), 1)
+        self.assertEqual(Comment.objects.count(), 1)
         self.assertEqual(test_post.comments.first().text, 'test description')
         self.assertEqual(self.test_user_1.comments.first().text, 'test description')
 
@@ -320,7 +320,7 @@ class TestViews(TestCase):
         response = self.client.post(reverse('add_comment', kwargs={'post_id': test_post.id}), {})
         
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(Comment.objects.all().count(), 0)
+        self.assertEqual(Comment.objects.count(), 0)
 
     # test for delete_comment view
     def test_view_delete_comment_if_not_logged_in(self):
@@ -335,7 +335,7 @@ class TestViews(TestCase):
         response = self.client.get(reverse('delete_comment', kwargs={'id': test_comment.id})) 
 
         self.assertEqual(response.status_code, 302) 
-        self.assertEqual(Comment.objects.all().count(), 0)
+        self.assertEqual(Comment.objects.count(), 0)
 
     # test for thumb_up view
     def test_view_thumb_up_if_not_logged_in(self):
@@ -350,7 +350,7 @@ class TestViews(TestCase):
         test_post.refresh_from_db()
         
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(Like.objects.all().count(), 1)
+        self.assertEqual(Like.objects.count(), 1)
         self.assertEqual(test_post.likes, 1)
         self.assertEqual(test_post.like_set.first(), self.test_user_1.like_set.first())
 
@@ -361,7 +361,7 @@ class TestViews(TestCase):
         test_post.save()
 
         self.assertEqual(test_post.likes, 1)
-        self.assertEqual(Like.objects.all().count(), 1)
+        self.assertEqual(Like.objects.count(), 1)
         self.assertEqual(test_post.like_set.first(), self.test_user_1.like_set.first())
 
         response = self.client.get(reverse('thumb_up', kwargs={'id': test_post.id}))
@@ -369,7 +369,7 @@ class TestViews(TestCase):
         test_post.refresh_from_db()
         
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(Like.objects.all().count(), 0)
+        self.assertEqual(Like.objects.count(), 0)
         self.assertEqual(test_post.likes, 0)
     
     # test for follow view
@@ -379,4 +379,26 @@ class TestViews(TestCase):
 
         self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/follow'))
 
+    def test_view_follow_GET(self):
+        response = self.client.get(reverse('follow', kwargs={'id': 1}))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_follow_if_follow_exists(self):
+        Follow.objects.create(user=self.test_user_1, user_followed=self.test_user_2, followd_user_id=self.test_user_2.id)
+        self.client.get(reverse('follow', kwargs={'id': self.test_user_2.id}))
+
+        self.assertEqual(Follow.objects.count(), 1)
+
+    def test_view_follow_if_follow_not_exists(self):
+        self.assertEqual(Follow.objects.count(), 0)
+        self.client.get(reverse('follow', kwargs={'id': self.test_user_2.id}))
+
+        self.test_user_1_profile.refresh_from_db()
+        self.test_user_2_profile.refresh_from_db()
         
+        self.assertEqual(Follow.objects.count(), 1)
+        self.assertEqual(self.test_user_1_profile.following_amount, 1)
+        self.assertEqual(self.test_user_2_profile.followers_amount, 1)
+
+    
