@@ -1,10 +1,10 @@
-from django.test import TestCase
+from django.test import SimpleTestCase
 from django.urls import resolve, reverse
 from main.views import *
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 
 
-class TestUrls(TestCase):
+class TestUrls(SimpleTestCase):
     
     def test_url_home(self):
         url = reverse('home')
