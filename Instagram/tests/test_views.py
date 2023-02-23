@@ -401,4 +401,39 @@ class TestViews(TestCase):
         self.assertEqual(self.test_user_1_profile.following_amount, 1)
         self.assertEqual(self.test_user_2_profile.followers_amount, 1)
 
-    
+    # test for unfollow view
+    def test_view_unfollow_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('unfollow', kwargs={'id': 1})) 
+
+    def test_view_unfollow_GET(self):
+        response = self.client.get(reverse('unfollow', kwargs={'id': 1}))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_unfollow_if_follow_exists(self):
+        Follow.objects.create(user=self.test_user_1, user_followed=self.test_user_2, followd_user_id=self.test_user_2.id)
+        self.test_user_1_profile.following_amount += 1
+        self.test_user_2_profile.followers_amount += 1
+        self.test_user_1_profile.save()
+        self.test_user_2_profile.save()
+
+        self.assertEqual(Follow.objects.count(), 1)
+        self.assertEqual(self.test_user_1_profile.following_amount, 1)
+        self.assertEqual(self.test_user_2_profile.followers_amount, 1)
+
+        self.client.get(reverse('unfollow', kwargs={'id': self.test_user_2.id}))
+
+        self.test_user_1_profile.refresh_from_db()
+        self.test_user_2_profile.refresh_from_db()
+
+        self.assertEqual(Follow.objects.count(), 0)
+        self.assertEqual(self.test_user_1_profile.following_amount, 0)
+        self.assertEqual(self.test_user_2_profile.followers_amount, 0)
+
+    def test_view_unfollow_if_follow_not_exists(self):
+        # creating the Follow objects by test_user_2 
+        Follow.objects.create(user=self.test_user_2, user_followed=self.test_user_1, followd_user_id=self.test_user_1.id)
+        self.client.get(reverse('unfollow', kwargs={'id': self.test_user_1.id}))
+
+        self.assertEqual(Follow.objects.count(), 1)
