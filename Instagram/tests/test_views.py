@@ -406,6 +406,8 @@ class TestViews(TestCase):
         self.client.logout()
         response = self.client.get(reverse('unfollow', kwargs={'id': 1})) 
 
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/unfollow'))
+
     def test_view_unfollow_GET(self):
         response = self.client.get(reverse('unfollow', kwargs={'id': 1}))
 
@@ -437,3 +439,22 @@ class TestViews(TestCase):
         self.client.get(reverse('unfollow', kwargs={'id': self.test_user_1.id}))
 
         self.assertEqual(Follow.objects.count(), 1)
+
+    # test for search view
+    def test_view_search_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('search')) 
+
+        self.assertTrue(response.url.startswith('/instagram/login/?next=/instagram/search'))
+
+    def test_view_search_GET_with_correct_data(self):
+        response = self.client.get(reverse('search'), {
+            'username_search': self.test_user_2.username
+        })
+
+        self.assertRedirects(response, f'/instagram/profile/{self.test_user_2_profile.id}')
+    
+    def test_view_search_GET_with_incorrect_data(self):
+        response = self.client.get(reverse('search'))
+
+        self.assertRedirects(response, '/instagram/')
