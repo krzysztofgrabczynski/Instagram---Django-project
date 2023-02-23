@@ -5,6 +5,7 @@
 
 ## Description
 This is my first project using Django. It's a simple social media site inspired by Instagram. If you want to use this kind of Instagram, you have to sign up. Then, you have some options. You can follow someone if you want to see what posts that particular user is posting, you can add comment below any post and use thumb up option. All data changes dynamically. Bootstrap templates and partially ready-made html/css models were used in this application because the creation of this project is mainly focused on the backend functionalities using Django. 
+This app also has unit tests that test the views, forms, models and urls.
 
 This app was created for educational purposes.
 
@@ -41,6 +42,7 @@ In this version, you can do some specific stuff, here is list of the most import
   - [x] use thumbs up option under the post and check the list of users who gave likes
   - [x] owners of the posts, can delete the post or edit (this options will be shown only for post owner)
   - [x] make a comment, it will be show below the post with your personal data, date of creation and deletion option
+- unit tests for views, forms, models and urls
 
 <br><br>
 
