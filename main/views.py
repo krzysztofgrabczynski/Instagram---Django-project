@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
+
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post, Comment, Like, Follow, User
 from .context_managers import FollowContextManager, ThumbUpContexManager
-
-from .decorators import if_logged
+from .decorators import if_logged, authorization_id, authorization_id_post, authorization_id_comment
 
 
 @login_required
@@ -51,10 +51,8 @@ def sign_up(request):
 
 
 @login_required
-def edit_account(request, id):
-    if request.user.userprofile.id != id:
-        return redirect(home)
-    
+@authorization_id
+def edit_account(request, id): 
     profile = UserProfile.objects.get(id=id) 
     user = profile.user
     
@@ -80,6 +78,7 @@ def edit_account(request, id):
     return render(request, 'settings/edit_account.html', context)
 
 @login_required
+@authorization_id
 def edit_profile(request, id):
     profile = get_object_or_404(UserProfile, pk=id)
     profile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=profile)
@@ -143,13 +142,11 @@ def add_post(request):
     return render(request, 'add_post.html',  context)
 
 @login_required
+@authorization_id_post
 def edit_post(request, id):
     user = request.user
     get_post = get_object_or_404(Post, pk=id)
     post_form = PostForm(request.POST or None, request.FILES or None, instance=get_post)
-
-    if get_post.user != user:
-        return redirect('home')
 
     if request.method == 'POST':
         if post_form.is_valid():
@@ -165,12 +162,11 @@ def edit_post(request, id):
     return render(request, 'edit_post.html', context)
 
 @login_required
+@authorization_id_comment
 def delete_post(request, id):
     user = request.user
     post = Post.objects.get(id=id)
 
-    if post.user != user:
-        return redirect('home')
     user.userprofile.posts_amount -= 1
     user.userprofile.save()
     post.delete()
@@ -194,6 +190,7 @@ def add_comment(request, post_id):
 
     
 @login_required
+@authorization_id_comment
 def delete_comment(request, id):
     comment = Comment.objects.get(id=id)
     comment.delete()
