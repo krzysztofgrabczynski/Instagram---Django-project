@@ -5,6 +5,8 @@ from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post, Comment, Like, Follow, User
 from .context_managers import FollowContextManager, ThumbUpContexManager
 
+from .decorators import if_logged
+
 
 @login_required
 def home(request):
@@ -26,9 +28,8 @@ def home(request):
     return render(request, 'home.html', context)
 
 
+@if_logged
 def sign_up(request):
-    if request.user.is_authenticated:
-        return redirect(home)
     if request.method == 'POST':
         user_registration_form = UserRegistrationForm(request.POST or None)
         user_profile_form = UserProfileForm()
@@ -51,7 +52,7 @@ def sign_up(request):
 
 @login_required
 def edit_account(request, id):
-    if request.user.id != id:
+    if request.user.userprofile.id != id:
         return redirect(home)
     
     profile = UserProfile.objects.get(id=id) 
