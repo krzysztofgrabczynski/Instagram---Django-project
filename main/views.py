@@ -162,7 +162,7 @@ def edit_post(request, id):
     return render(request, 'edit_post.html', context)
 
 @login_required
-@authorization_id_comment
+@authorization_id_post
 def delete_post(request, id):
     user = request.user
     post = Post.objects.get(id=id)
