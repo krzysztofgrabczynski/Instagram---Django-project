@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0010_alter_comment_post_alter_comment_user_and_more'),
+        ("main", "0010_alter_comment_post_alter_comment_user_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userprofile',
-            name='posts_amount',
+            model_name="userprofile",
+            name="posts_amount",
             field=models.IntegerField(default=0),
         ),
     ]

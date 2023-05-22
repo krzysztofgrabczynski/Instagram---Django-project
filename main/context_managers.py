@@ -11,7 +11,7 @@ class FollowContextManager:
                 break
             else:
                 self.is_followed = False
-        
+
         return self
 
     def __exit__(self, exc_type, exc_value, trace):
@@ -32,4 +32,3 @@ class ThumbUpContexManager:
 
     def __exit__(self, exc_type, exc_value, trace):
         pass
-

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0016_follow_user_followed_alter_follow_user'),
+        ("main", "0016_follow_user_followed_alter_follow_user"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='follow',
-            name='followd_user_id',
+            model_name="follow",
+            name="followd_user_id",
             field=models.PositiveIntegerField(default=None),
         ),
     ]

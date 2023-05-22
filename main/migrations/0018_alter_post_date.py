@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0017_alter_follow_followd_user_id'),
+        ("main", "0017_alter_follow_followd_user_id"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='date',
+            model_name="post",
+            name="date",
             field=models.DateTimeField(auto_now_add=True),
         ),
     ]

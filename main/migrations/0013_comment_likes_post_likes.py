@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0012_userprofile_followers_amount_and_more'),
+        ("main", "0012_userprofile_followers_amount_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='comment',
-            name='likes',
+            model_name="comment",
+            name="likes",
             field=models.IntegerField(default=0),
         ),
         migrations.AddField(
-            model_name='post',
-            name='likes',
+            model_name="post",
+            name="likes",
             field=models.IntegerField(default=0),
         ),
     ]

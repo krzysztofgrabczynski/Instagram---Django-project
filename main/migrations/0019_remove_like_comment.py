@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0018_alter_post_date'),
+        ("main", "0018_alter_post_date"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='like',
-            name='comment',
+            model_name="like",
+            name="comment",
         ),
     ]

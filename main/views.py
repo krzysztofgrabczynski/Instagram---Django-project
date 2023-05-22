@@ -5,35 +5,42 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post, Comment, Like, Follow, User
 from .context_managers import FollowContextManager, ThumbUpContexManager
-from .decorators import if_logged, authorization_id, authorization_id_post, authorization_id_comment
+from .decorators import (
+    if_logged,
+    authorization_id,
+    authorization_id_post,
+    authorization_id_comment,
+)
 
 
 @login_required
 def home(request):
     user = request.user
-    
+
     list_of_followers = [user]
     for follow in user.follower.all():
         list_of_followers.append(follow.user_followed)
-    
-    posts = Post.objects.filter(user__in=list_of_followers).order_by('-date')
+
+    posts = Post.objects.filter(user__in=list_of_followers).order_by("-date")
     comment_form = CommentForm()
-    comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
-    
+    comments_ids = Comment.objects.filter(user=request.user).values_list(
+        "id", flat=True
+    )
+
     context = {
-        'posts': posts, 
-        'comment_form': comment_form, 
-        'users_comments': comments_ids
+        "posts": posts,
+        "comment_form": comment_form,
+        "users_comments": comments_ids,
     }
-    return render(request, 'home.html', context)
+    return render(request, "home.html", context)
 
 
 @if_logged
 def sign_up(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         user_registration_form = UserRegistrationForm(request.POST or None)
         user_profile_form = UserProfileForm()
-        
+
         if user_registration_form.is_valid():
             user_profile = user_profile_form.save(commit=False)
             user = user_registration_form.save()
@@ -44,25 +51,23 @@ def sign_up(request):
             return redirect(home)
 
     user_registration_form = UserRegistrationForm()
-    context = {
-        'form': user_registration_form
-    }
-    return render(request, 'registration/sign_up.html', context)
+    context = {"form": user_registration_form}
+    return render(request, "registration/sign_up.html", context)
 
 
 @login_required
 @authorization_id
-def edit_account(request, id): 
-    profile = UserProfile.objects.get(id=id) 
+def edit_account(request, id):
+    profile = UserProfile.objects.get(id=id)
     user = profile.user
-    
+
     user_form = UserRegistrationForm(instance=user)
-    
-    if request.method == 'POST':
-        username = request.POST['username']
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
+
+    if request.method == "POST":
+        username = request.POST["username"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        email = request.POST["email"]
 
         user.username = username
         user.first_name = first_name
@@ -72,53 +77,54 @@ def edit_account(request, id):
 
         return redirect(home)
 
-    context = {
-        'user_form': user_form
-    }
-    return render(request, 'settings/edit_account.html', context)
+    context = {"user_form": user_form}
+    return render(request, "settings/edit_account.html", context)
+
 
 @login_required
 @authorization_id
 def edit_profile(request, id):
     profile = get_object_or_404(UserProfile, pk=id)
-    profile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=profile)
+    profile_form = UserProfileForm(
+        request.POST or None, request.FILES or None, instance=profile
+    )
     if profile_form.is_valid():
         profile = profile_form.save(commit=False)
         profile.user = request.user
         profile.save()
-        
+
         return redirect(user_profile, id)
 
-    context = {
-        'profile': profile_form
-    }
-    return render(request, 'settings/edit_profile.html', context)
+    context = {"profile": profile_form}
+    return render(request, "settings/edit_profile.html", context)
 
 
 @login_required
-def user_profile(request, id): 
+def user_profile(request, id):
     profile = UserProfile.objects.get(id=id)
     gender = profile.GENDER[profile.gender][1]
-    posts = profile.user.posts.all().order_by('-date')
+    posts = profile.user.posts.all().order_by("-date")
     comment_form = CommentForm()
-    comments_ids = Comment.objects.filter(user=request.user).values_list('id', flat=True)
+    comments_ids = Comment.objects.filter(user=request.user).values_list(
+        "id", flat=True
+    )
 
     followers_list = Follow.objects.filter(followd_user_id=profile.user.id)
-    
+
     with FollowContextManager(request.user, profile) as follow:
         is_followed = follow.is_followed
-    
+
     context = {
-        'profile': profile, 
-        'gender': gender, 
-        'posts': posts, 
-        'comment_form': comment_form, 
-        'users_comments': comments_ids, 
-        'is_followed': is_followed, 
-        'followers_list': followers_list
+        "profile": profile,
+        "gender": gender,
+        "posts": posts,
+        "comment_form": comment_form,
+        "users_comments": comments_ids,
+        "is_followed": is_followed,
+        "followers_list": followers_list,
     }
 
-    return render(request, 'user_profile.html', context)
+    return render(request, "user_profile.html", context)
 
 
 @login_required
@@ -126,20 +132,19 @@ def add_post(request):
     post_form = PostForm(request.POST or None, request.FILES or None)
     user = UserProfile.objects.get(user=request.user)
 
-    if post_form.is_valid():   
+    if post_form.is_valid():
         post = post_form.save(commit=False)
-        post.user = request.user        
+        post.user = request.user
         user.posts_amount += 1
-        
+
         user.save()
         post.save()
 
         return redirect(home)
 
-    context = {
-        'post_form': post_form
-    }
-    return render(request, 'add_post.html',  context)
+    context = {"post_form": post_form}
+    return render(request, "add_post.html", context)
+
 
 @login_required
 @authorization_id_post
@@ -148,7 +153,7 @@ def edit_post(request, id):
     get_post = get_object_or_404(Post, pk=id)
     post_form = PostForm(request.POST or None, request.FILES or None, instance=get_post)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         if post_form.is_valid():
             post = post_form.save(commit=False)
             post.user = user
@@ -156,10 +161,9 @@ def edit_post(request, id):
 
             return redirect(home)
 
-    context = {
-        'post_form': post_form
-    }
-    return render(request, 'edit_post.html', context)
+    context = {"post_form": post_form}
+    return render(request, "edit_post.html", context)
+
 
 @login_required
 @authorization_id_post
@@ -172,12 +176,13 @@ def delete_post(request, id):
     post.delete()
     return redirect(home)
 
+
 @login_required
 def add_comment(request, post_id):
     user_profile = UserProfile.objects.get(user=request.user)
     posts = Post.objects.all()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         comment_form = CommentForm(request.POST)
 
         if comment_form.is_valid():
@@ -185,17 +190,17 @@ def add_comment(request, post_id):
             comment.post = posts.get(id=post_id)
             comment.user = user_profile.user
             comment.save()
-            
+
     return redirect(home)
 
-    
+
 @login_required
 @authorization_id_comment
 def delete_comment(request, id):
     comment = Comment.objects.get(id=id)
     comment.delete()
     return redirect(home)
-    
+
 
 @login_required
 def thumb_up(request, id):
@@ -214,6 +219,7 @@ def thumb_up(request, id):
 
     return redirect(home)
 
+
 @login_required
 def follow(request, id):
     user = request.user
@@ -221,14 +227,17 @@ def follow(request, id):
     follow = Follow.objects.filter(followd_user_id=id).first()
 
     if not follow in user.follower.all():
-        new_follow = Follow.objects.create(user=user, user_followed=followed_user ,followd_user_id=id)
+        new_follow = Follow.objects.create(
+            user=user, user_followed=followed_user, followd_user_id=id
+        )
         new_follow.save()
         user.userprofile.following_amount += 1
         user.userprofile.save()
         followed_user.userprofile.followers_amount += 1
         followed_user.userprofile.save()
-    
-    return redirect(user_profile, id=followed_user.userprofile.id)  
+
+    return redirect(user_profile, id=followed_user.userprofile.id)
+
 
 @login_required
 def unfollow(request, id):
@@ -243,25 +252,19 @@ def unfollow(request, id):
         followed_user.userprofile.followers_amount -= 1
         followed_user.userprofile.save()
 
-    return redirect(user_profile, id=followed_user.userprofile.id)  
+    return redirect(user_profile, id=followed_user.userprofile.id)
 
 
 @login_required
 def search(request):
-    if request.method == 'GET':        
-        username = request.GET.get('username_search')
+    if request.method == "GET":
+        username = request.GET.get("username_search")
         try:
-            result = User.objects.get(username = username)
+            result = User.objects.get(username=username)
         except:
             result = None
-        
+
         if result:
-            return redirect(user_profile, result.userprofile.id)    
-    
-    return redirect('home')
-    
-    
-    
+            return redirect(user_profile, result.userprofile.id)
 
-
-
+    return redirect("home")
