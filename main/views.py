@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import UserRegistrationForm, UserProfileForm, CommentForm, PostForm
 from .models import UserProfile, Post, Comment, Like, Follow, User
@@ -226,7 +227,7 @@ def follow(request, id):
     followed_user = User.objects.get(id=id)
     follow = Follow.objects.filter(followd_user_id=id).first()
 
-    if not follow in user.follower.all():
+    if follow not in user.follower.all():
         new_follow = Follow.objects.create(
             user=user, user_followed=followed_user, followd_user_id=id
         )
@@ -261,7 +262,7 @@ def search(request):
         username = request.GET.get("username_search")
         try:
             result = User.objects.get(username=username)
-        except:
+        except ObjectDoesNotExist:
             result = None
 
         if result:
