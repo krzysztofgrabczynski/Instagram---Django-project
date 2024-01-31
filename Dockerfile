@@ -1,20 +1,18 @@
-FROM python:3.11-alpine
+FROM python:3.11
 
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED 1
 
 WORKDIR /code
 
-COPY requirements.txt /code/
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+ENV PATH "/root/.local/bin:$PATH"
+
+COPY poetry.lock pyproject.toml /code/
+COPY README.md /code/
 
 COPY . /code/
 
-RUN python manage.py migrate
+RUN poetry install
 
 EXPOSE 8000
-
-RUN mkdir -p /code/data
-
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
