@@ -3,9 +3,13 @@
 
 # <p align=center> <a name="top">Instagram---Django-project </a></p>  
 
+This is the first version of the Instagram project on my github. If you want to check out the next version which is fully based on Django Rest Framework [click here.](https://github.com/krzysztofgrabczynski/Instagram---DRF-project)
+
 ## Description
 This is my first project using Django. It's a simple social media site inspired by Instagram. If you want to use this kind of Instagram, you have to sign up. Then, you have some options. You can follow someone if you want to see what posts that particular user is posting, you can add comment below any post and use thumb up option. All data changes dynamically. Bootstrap templates and partially ready-made html/css models were used in this application because the creation of this project is mainly focused on the backend functionalities using Django. 
 This app also has unit tests that test the views, forms, models and urls.
+
+Project has been dockerized.
 
 This app was created for educational purposes.
 
@@ -17,7 +21,7 @@ If you want to check out my other projects [click here.](https://github.com/krzy
 </p>
 
 
-## Install for local use
+## Install for local use 
 - Copy the repository
 - Create virtual environment using ``` python -m venv venv ``` in project directory
 - Use ``` . venv/Scripts/activate ``` to activate the virtual environment
