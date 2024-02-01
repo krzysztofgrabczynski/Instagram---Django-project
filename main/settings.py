@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "bootstrapform",
-    "main",
+    "src.main_old",
 ]
 
 MIDDLEWARE = [
@@ -44,7 +44,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "Instagram.urls"
+ROOT_URLCONF = "main.urls"
 
 TEMPLATES = [
     {
@@ -63,7 +63,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "Instagram.wsgi.application"
+WSGI_APPLICATION = "main.wsgi.application"
 
 
 # Database

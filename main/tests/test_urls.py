@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import resolve, reverse
-from main.views import *
+from src.main_old.views import *
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 
 

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from main.forms import *
+from src.main_old.forms import *
 
 from django.core.files.base import File
 from io import BytesIO

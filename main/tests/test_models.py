@@ -1,5 +1,5 @@
 from django.test import TestCase
-from main.models import UserProfile, Follow, Post, Comment, Like
+from src.main_old.models import UserProfile, Follow, Post, Comment, Like
 from django.contrib.auth.models import User
 
 
