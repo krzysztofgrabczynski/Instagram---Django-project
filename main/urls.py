@@ -6,5 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("instagram/", include("src.main_old.urls")),
+    # path("instagram/", include("src.main_old.urls")),
+    path("", include("src.user.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
