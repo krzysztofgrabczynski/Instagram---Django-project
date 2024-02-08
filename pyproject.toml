@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-django = "^5.0.1"
+django = "^4.2.7"
 django-bootstrap-form = "^3.4"
 pillow = "^10.2.0"
 python-dotenv = "^1.0.1"
