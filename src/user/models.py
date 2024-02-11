@@ -12,7 +12,7 @@ class GenederChoiceEnum(models.IntegerChoices):
 
 
 class UserProfileModel(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     gender = models.PositiveSmallIntegerField(
         choices=GenederChoiceEnum.choices, default=GenederChoiceEnum.MALE
     )
