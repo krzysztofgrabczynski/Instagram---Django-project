@@ -18,7 +18,7 @@
                   {% if profile.user.id == user.id %}
                     <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                       style="z-index: 1;">
-                      <a class="nav-link" href="{% url 'edit_profile' user.userprofile.id %}">Edit profile</a>
+                      <a class="nav-link" href="{% url 'edit_profile' user.userprofilemodel.id %}">Edit profile</a>
                     </button>
                   {% else %}
                   <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
@@ -33,7 +33,7 @@
               </div>    
               <div class="ms-3" style="margin-top: 130px;">   
                 <h5>{{ profile.user.first_name }} {{ profile.user.last_name }} ({{ profile.user.username }})</h5>
-                <p>{{ gender }}</p>
+                <p>{{ profile.get_gender_display }}</p>
               </div>    
             </div>    <!-- User informations section (img, name, gender) -->
 
@@ -76,7 +76,6 @@
               {% include 'post.html' %}   
 
             </div>    <!-- User profile description, posts -->
-
           </div>
         </div>
       </div>
