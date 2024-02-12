@@ -19,5 +19,7 @@ urlpatterns = [
         user_views.EditUserProfileView.as_view(),
         name="edit_profile",
     ),
-    # path("profile/<int:id>", user_profile, name="user_profile"),
+    path(
+        "profile/<int:pk>/", user_views.UserProfileView.as_view(), name="user_profile"
+    ),
 ]
