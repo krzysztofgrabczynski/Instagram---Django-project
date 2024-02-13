@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "bootstrapform",
     "src.main_old",
     "src.user",
+    "src.post",
 ]
 
 MIDDLEWARE = [
