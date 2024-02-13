@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block title %} Edit post {% endblock %}
+
+
+{% block body %} 
+
+<div class="card mx-auto text-center my-5" style="width: 48rem;">
+    <div class="card-body">
+    <h5 class="card-title">Delete post</h5>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input type="submit" class="btn btn-danger" value="Delete">
+    </form>
+    </div>
+</div>
+
+{% endblock body %} 

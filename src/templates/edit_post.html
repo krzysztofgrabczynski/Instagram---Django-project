@@ -11,7 +11,7 @@
     <h5 class="card-title">Edit post</h5>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ post_form|bootstrap }}
+            {{ form|bootstrap }}
             <br>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
