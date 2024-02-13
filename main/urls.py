@@ -9,4 +9,5 @@ urlpatterns = [
     # path("instagram/", include("src.main_old.urls")),
     path("", include("src.user.urls")),
     path("", include("src.post.urls")),
+    path("", include("src.comment.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
