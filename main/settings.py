@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "src.main_old",
     "src.user",
     "src.post",
+    "src.comment",
 ]
 
 MIDDLEWARE = [
