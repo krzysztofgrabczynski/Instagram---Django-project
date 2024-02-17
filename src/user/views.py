@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from src.user.forms import UserRegistrationForm, EditUserProfileForm
 from src.user.models import UserProfileModel
 from src.user.mixins import RedirectIfLoggedUserMixin, ObjectOwnerRequiredMixin
+from src.post.models import PostModel
 
 
 class RegisterUserFormView(RedirectIfLoggedUserMixin, generic.CreateView):
@@ -35,6 +36,14 @@ class UserProfileView(generic.detail.DetailView):
     model = UserProfileModel
     template_name = "user_profile.html"
     context_object_name = "profile"
+
+    def get_context_data(self, **kwargs):
+        extra_context = {
+            "posts": PostModel.objects.filter(user=self.request.user).order_by("-date")
+        }
+        context = super().get_context_data(**kwargs)
+        context.update(extra_context)
+        return context
 
 
 class EditUserProfileView(ObjectOwnerRequiredMixin, generic.edit.UpdateView):
