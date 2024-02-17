@@ -8,24 +8,19 @@
     
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
-        <form action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0 mx-auto text-center .d-inline-block">
-            {% csrf_token %}
-            <input class="form-control mr-sm-2" type="search" placeholder="Search for username" aria-label="Search" name="username_search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <!-- ADD SEARCH FUNCTIONALITY -->
 
         <ul class="navbar-nav">
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user_profile' user.userprofile.id %}">Profile</a>
+                    <a class="nav-link" href="{% url 'user_profile' user.userprofilemodel.id %}">Profile</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Settings
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <a class="dropdown-item" href="{% url 'edit_profile' user.userprofile.id %}">Edit Profile</a>
-                        <a class="dropdown-item" href="{% url 'edit_account' user.userprofile.id %}">Edit Account</a>
+                        <a class="dropdown-item" href="{% url 'edit_profile' user.userprofilemodel.id %}">Edit Profile</a>
                         <a class="dropdown-item" href="{% url 'edit_password' %}">Edit password</a>
                     </ul>
                 </li>
