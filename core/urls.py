@@ -6,7 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("instagram/", include("src.main_old.urls")),
     path("", include("src.user.urls")),
     path("", include("src.post.urls")),
     path("", include("src.comment.urls")),

@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "bootstrapform",
-    "src.main_old",
     "src.user",
     "src.post",
     "src.comment",
