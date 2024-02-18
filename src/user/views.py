@@ -39,11 +39,25 @@ class UserProfileView(generic.detail.DetailView):
 
     def get_context_data(self, **kwargs):
         extra_context = {
-            "posts": PostModel.objects.filter(user=self.request.user).order_by("-date")
+            "posts": PostModel.objects.filter(user=self.request.user).order_by("-date"),
+            "is_followed": self._is_followed(),
         }
         context = super().get_context_data(**kwargs)
         context.update(extra_context)
         return context
+
+    def _is_followed(self):
+        """
+        Check if the request.user is following specifi user_profile from request.
+        """
+
+        user = self.request.user
+        current_profile = self.get_object()
+        return (
+            True
+            if user.follow_source.filter(user_followed=current_profile.user).exists()
+            else False
+        )
 
 
 class EditUserProfileView(ObjectOwnerRequiredMixin, generic.edit.UpdateView):
