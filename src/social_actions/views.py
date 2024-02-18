@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 from src.social_actions.models import FollowModel, LikeModel
 from src.user.models import UserProfileModel
+from src.post.models import PostModel
 
 
 class FollowActionView(generic.RedirectView):
@@ -73,3 +74,42 @@ class FollowActionView(generic.RedirectView):
         user.userprofilemodel.save()
         user_profile.followers_amount -= 1
         user_profile.save()
+
+
+class LikeActionView(generic.RedirectView):
+    url = None
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        post = self.get_object()
+
+        for like in post.likemodel_set.all():
+            if like in request.user.likemodel_set.all():
+                self.delete_like(like, post)
+                break
+        else:
+            self.create_like(request.user, post)
+
+        self.url = reverse_lazy(
+            "user_profile", kwargs={"pk": request.user.userprofilemodel.pk}
+        )
+
+        return super().get(request, *args, **kwargs)
+
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+
+        if pk is not None:
+            return PostModel.objects.get(pk=pk)
+
+        raise AttributeError("Missing 'pk' in the URLconf.")
+
+    def create_like(self, user: User, post: PostModel) -> None:
+        new_like = LikeModel.objects.create(user=user, post=post)
+        new_like.save()
+        post.likes += 1
+        post.save()
+
+    def delete_like(self, like: LikeModel, post: PostModel) -> None:
+        like.delete()
+        post.likes -= 1
+        post.save()

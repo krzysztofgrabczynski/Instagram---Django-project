@@ -39,7 +39,7 @@ class UserProfileView(generic.detail.DetailView):
 
     def get_context_data(self, **kwargs):
         extra_context = {
-            "posts": PostModel.objects.filter(user=self.request.user).order_by("-date"),
+            "posts": PostModel.objects.filter(user=self.object.user).order_by("-date"),
             "is_followed": self._is_followed(),
         }
         context = super().get_context_data(**kwargs)

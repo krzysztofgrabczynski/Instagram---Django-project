@@ -36,11 +36,9 @@
                         <div class="post-description">      <!-- Post description and icons (like, likes_list, edit, delete) -->
                             <p>{{ post.description }}</p>
                             <div class="stats">
-                                
-
-                                <!-- ADD THUMB UP FUNCTIONALITY -->
-
-
+                                <a href="{% url 'like' post.id %}" class="btn btn-default stat-item">
+                                    <i class="fa-regular fa-thumbs-up"></i> {{ post.likes }}
+                                </a>
                                 {% include 'likes_list.html' %}     <!-- Modal windowof the likes list under post -->
                                 <button class="btn btn-default stat-item" id="myBtn{{ post.id }}" onclick="openModal('myModal{{ post.id }}')">
                                   <i class="fa-solid fa-list"></i>
