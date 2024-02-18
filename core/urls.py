@@ -10,4 +10,5 @@ urlpatterns = [
     path("", include("src.user.urls")),
     path("", include("src.post.urls")),
     path("", include("src.comment.urls")),
+    path("", include("src.home.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

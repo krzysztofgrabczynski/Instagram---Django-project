@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "src.user",
     "src.post",
     "src.comment",
+    "src.home",
 ]
 
 MIDDLEWARE = [
