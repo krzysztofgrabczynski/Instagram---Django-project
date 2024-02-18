@@ -1,5 +1,4 @@
-from typing import Any
-from typing import Union
+from typing import Any, Union
 
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
@@ -90,7 +89,7 @@ class LikeActionView(generic.RedirectView):
             self.create_like(request.user, post)
 
         self.url = reverse_lazy(
-            "user_profile", kwargs={"pk": request.user.userprofilemodel.pk}
+            "user_profile", kwargs={"pk": post.user.userprofilemodel.pk}
         )
 
         return super().get(request, *args, **kwargs)
