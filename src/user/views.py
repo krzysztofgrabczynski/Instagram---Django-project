@@ -9,6 +9,7 @@ from src.user.forms import UserRegistrationForm, EditUserProfileForm
 from src.user.models import UserProfileModel
 from src.user.mixins import RedirectIfLoggedUserMixin, ObjectOwnerRequiredMixin
 from src.post.models import PostModel
+from src.social_actions.models import FollowModel
 
 
 class RegisterUserFormView(RedirectIfLoggedUserMixin, generic.CreateView):
@@ -41,6 +42,7 @@ class UserProfileView(generic.detail.DetailView):
         extra_context = {
             "posts": PostModel.objects.filter(user=self.object.user).order_by("-date"),
             "is_followed": self._is_followed(),
+            "followers_list": self._followers_list(),
         }
         context = super().get_context_data(**kwargs)
         context.update(extra_context)
@@ -58,6 +60,9 @@ class UserProfileView(generic.detail.DetailView):
             if user.follow_source.filter(user_followed=current_profile.user).exists()
             else False
         )
+
+    def _followers_list(self):
+        return FollowModel.objects.filter(user_followed=self.object.user)
 
 
 class EditUserProfileView(ObjectOwnerRequiredMixin, generic.edit.UpdateView):
