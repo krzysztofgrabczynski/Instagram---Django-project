@@ -2,8 +2,8 @@
     <div class="modal-content">
       <span class="close" onclick="closeModal('myModal2')">&times;</span>
       <h2>Following</h2>
-      {% for follow in profile.user.follower.all %}
-      <a href="{% url 'user_profile' follow.user_followed.userprofile.id %}" style=" font-size: 20px;">
+      {% for follow in profile.user.follow_source.all %}
+      <a href="{% url 'user_profile' follow.user_followed.userprofilemodel.id %}" style=" font-size: 20px;">
          {{ follow.user_followed.first_name }} {{ follow.user_followed.last_name }}
       </a>
       {% endfor %}
