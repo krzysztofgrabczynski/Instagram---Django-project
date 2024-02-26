@@ -4,16 +4,18 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 
 from src.post.models import PostModel
+from src.social_actions.models import FollowModel
 
 
 class HomeView(generic.TemplateView):
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):
+        followers = [
+            x.user_followed for x in FollowModel.objects.filter(user=self.request.user)
+        ]
         extra_context = {
-            "posts": PostModel.objects.filter(user=self.request.user).order_by(
-                "-date"
-            )  # has to be change for all posts of the people you are following
+            "posts": PostModel.objects.filter(user__in=followers).order_by("-date")
         }
         context = super().get_context_data(**kwargs)
         context.update(extra_context)
