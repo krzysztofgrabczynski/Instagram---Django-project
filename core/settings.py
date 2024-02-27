@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "src.comment",
     "src.home",
     "src.social_actions",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -109,14 +110,20 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-STATIC_URL = "static/"
-STATICFILES_DIRS = ["static_dir"]
-
-MEDIA_URL = "media/"
-MEDIA_ROOT = "media_dir"
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# AWS s3 configuration
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_REGION = os.environ.get("AWS_REGION")
+AWS_QUERYSTRING_AUTH = os.environ.get("AWS_QUERYSTRING_AUTH")
+AWS_S3_CUSTOM_DOMAIN = os.environ.get("AWS_S3_CUSTOM_DOMAIN")
+
+STATIC_LOCATION = "static"
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/"
 
 # Redirecting
 LOGIN_URL = reverse_lazy("login")

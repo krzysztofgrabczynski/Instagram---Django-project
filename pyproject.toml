@@ -13,6 +13,8 @@ pillow = "^10.2.0"
 python-dotenv = "^1.0.1"
 psycopg2 = "^2.9.9"
 redgreenunittest = "^0.1.1"
+django-storages = "^1.14.2"
+boto3 = "^1.34.49"
 
 
 [tool.poetry.group.dev.dependencies]

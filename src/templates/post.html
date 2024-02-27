@@ -15,7 +15,7 @@
                         <div class="post-heading">      <!-- User informations (img, name, post_date) -->
                             <div class="pull-left image">
                                 <a href="{% url 'user_profile' post.user.userprofilemodel.id %}">
-                                    <img src="/media/{{ post.user.userprofilemodel.profile_img }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
+                                    <img src="{{ post.user.userprofilemodel.profile_img.url }}" class="img-circle avatar" alt="user profile image" style="border-radius: 50%;">
                                 </a>
                             </div>
 
@@ -30,7 +30,7 @@
                         </div>      <!-- User informations (img, name, post_date) -->
 
                         <div class="post-image">        <!-- Post img -->
-                            <img src="/media/{{ post.post_img }}" class="image" alt="image post">
+                            <img src="{{ post.post_img.url }}" class="image" alt="image post">
                         </div>      <!-- Post img -->
 
                         <div class="post-description">      <!-- Post description and icons (like, likes_list, edit, delete) -->
