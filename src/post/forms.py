@@ -1,3 +1,4 @@
+from django.utils.functional import SimpleLazyObject
 from django import forms
 
 from src.post.models import PostModel
@@ -14,7 +15,7 @@ class CreatePostForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self._set_current_user(current_user)
 
-    def _set_current_user(self, user):
+    def _set_current_user(self, user: SimpleLazyObject) -> None:
         if user is not None:
             self.initial["user"] = user
         else:

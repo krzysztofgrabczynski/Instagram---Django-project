@@ -13,7 +13,7 @@ from src.post.models import PostModel
 class FollowActionView(generic.RedirectView):
     url = None
 
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+    def get(self, request, *args, **kwargs):
         user_profile = self.get_user_profile_from_request(kwargs.get("pk"))
         if request.user == user_profile.user:
             self.url = reverse_lazy("home")
@@ -78,7 +78,7 @@ class FollowActionView(generic.RedirectView):
 class LikeActionView(generic.RedirectView):
     url = None
 
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+    def get(self, request, *args, **kwargs):
         post = self.get_object()
 
         for like in post.likemodel_set.all():
@@ -94,7 +94,11 @@ class LikeActionView(generic.RedirectView):
 
         return super().get(request, *args, **kwargs)
 
-    def get_object(self):
+    def get_object(self) -> PostModel:
+        """
+        That function can raise an exception AttributeError if `pk` of the object is not present in `self.kwargs`.
+        """
+
         pk = self.kwargs.get("pk")
 
         if pk is not None:

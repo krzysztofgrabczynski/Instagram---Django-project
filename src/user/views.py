@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.db.models.query import QuerySet
 from django.contrib.auth import login
 from django.views import generic
 from django.contrib.auth.models import User
@@ -48,7 +49,7 @@ class UserProfileView(generic.detail.DetailView):
         context.update(extra_context)
         return context
 
-    def _is_followed(self):
+    def _is_followed(self) -> bool:
         """
         Check if the request.user is following specifi user_profile from request.
         """
@@ -61,7 +62,7 @@ class UserProfileView(generic.detail.DetailView):
             else False
         )
 
-    def _followers_list(self):
+    def _followers_list(self) -> QuerySet:
         return FollowModel.objects.filter(user_followed=self.object.user)
 
 
@@ -71,5 +72,5 @@ class EditUserProfileView(ObjectOwnerRequiredMixin, generic.edit.UpdateView):
     template_name = "settings/edit_profile.html"
     success_url = reverse_lazy("home")
 
-    def get_object_owner(self):
+    def get_object_owner(self) -> User:
         return self.get_object()

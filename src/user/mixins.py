@@ -12,7 +12,7 @@ class RedirectIfLoggedUserMixin:
             return self.redirect_authenticated_user()
         return super().dispatch(request, *args, **kwargs)
 
-    def get_redirect_field_name(self):
+    def get_redirect_field_name(self) -> str:
         redirect_field_name = (
             self.redirect_field_name or settings.SIGNUP_REDIRECT_URL
             if hasattr(settings, "SIGNUP_REDIRECT_URL")
@@ -27,7 +27,7 @@ class RedirectIfLoggedUserMixin:
             )
         return str(redirect_field_name)
 
-    def redirect_authenticated_user(self):
+    def redirect_authenticated_user(self) -> HttpResponseRedirect:
         return HttpResponseRedirect(self.get_redirect_field_name())
 
 

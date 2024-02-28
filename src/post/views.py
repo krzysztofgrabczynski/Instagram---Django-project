@@ -1,7 +1,7 @@
-from django.forms import BaseModelForm
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
+from django.forms.forms import Form
 
 from src.post.models import PostModel
 from src.post.forms import CreatePostForm
@@ -15,17 +15,17 @@ class CreatePostView(generic.CreateView):
     template_name = "add_post.html"
     success_url = reverse_lazy("home")
 
-    def get_form_kwargs(self):
+    def get_form_kwargs(self) -> dict:
         kwargs = super().get_form_kwargs()
         kwargs.update({"user": self.request.user})
         return kwargs
 
-    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    def form_valid(self, form: form_class) -> HttpResponseRedirect:
         self.object = form.save()
         self._increase_posts_amount()
         return HttpResponseRedirect(self.get_success_url())
 
-    def _increase_posts_amount(self):
+    def _increase_posts_amount(self) -> None:
         user_profile = UserProfileModel.objects.get(user=self.request.user)
         user_profile.posts_amount += 1
         user_profile.save()
@@ -39,7 +39,7 @@ class EditPostView(ObjectOwnerRequiredMixin, generic.edit.UpdateView):
 
     owner_field_name = "user"
 
-    def get_form_kwargs(self):
+    def get_form_kwargs(self) -> dict:
         kwargs = super().get_form_kwargs()
         kwargs.update({"user": self.request.user})
         return kwargs
@@ -52,12 +52,12 @@ class DeletePostView(ObjectOwnerRequiredMixin, generic.edit.DeleteView):
 
     owner_field_name = "user"
 
-    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    def form_valid(self, form: Form) -> HttpResponseRedirect:
         self.object.delete()
         self._decrease_posts_amount()
         return HttpResponseRedirect(self.get_success_url())
 
-    def _decrease_posts_amount(self):
+    def _decrease_posts_amount(self) -> None:
         user_profile = UserProfileModel.objects.get(user=self.request.user)
         user_profile.posts_amount -= 1
         user_profile.save()

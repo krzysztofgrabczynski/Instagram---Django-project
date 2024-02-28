@@ -1,4 +1,4 @@
-from django.http import HttpResponseNotAllowed, HttpResponseRedirect
+from django.http import HttpResponseNotAllowed, HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -14,7 +14,7 @@ class CreateCommentView(generic.edit.BaseFormView):
 
     permitted_methods = ("POST",)
 
-    def get(self):
+    def get(self) -> HttpResponse:
         raise HttpResponseNotAllowed(self.permitted_methods)
 
     def form_valid(self, form):
@@ -25,7 +25,7 @@ class CreateCommentView(generic.edit.BaseFormView):
 
         return super().form_valid(form)
 
-    def form_invalid(self):
+    def form_invalid(self) -> HttpResponse:
         return HttpResponseRedirect(self.request.path)
 
 
