@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.post.models import PostModel
 from src.post.forms import CreatePostForm
-from src.user.mixins import ObjectOwnerRequiredMixin
+from src.mixins import ObjectOwnerRequiredMixin
 from src.user.models import UserProfileModel
 
 

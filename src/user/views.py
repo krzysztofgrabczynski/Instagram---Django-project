@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.user.forms import UserRegistrationForm, EditUserProfileForm
 from src.user.models import UserProfileModel
-from src.user.mixins import (
+from src.mixins import (
     RedirectIfLoggedUserMixin,
     ObjectOwnerRequiredMixin,
     SaveLastVisitedUrl,

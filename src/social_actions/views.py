@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from src.social_actions.models import FollowModel, LikeModel
 from src.user.models import UserProfileModel
 from src.post.models import PostModel
-from src.user.mixins import SetLastVisitedUrl
+from src.mixins import SetLastVisitedUrl
 
 
 @method_decorator(SetLastVisitedUrl(), name="dispatch")

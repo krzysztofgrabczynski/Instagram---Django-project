@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.post.models import PostModel
 from src.social_actions.models import FollowModel
-from src.user.mixins import SaveLastVisitedUrl
+from src.mixins import SaveLastVisitedUrl
 
 
 @method_decorator(SaveLastVisitedUrl(), name="dispatch")
