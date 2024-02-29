@@ -5,15 +5,26 @@
 
 This is the first version of the Instagram project on my github. If you want to check out the next version which is fully based on Django Rest Framework [click here.](https://github.com/krzysztofgrabczynski/Instagram---DRF-project)
 
+Additionaly, you can find here 2 branches:
+- main branch, is an improved version of the project, based on classes, splitting applications, using many tools, etc.
+- old_version branch, holds the original version of the project. Simple, based on funtions, without many tools and methodologies (it was first project based on Django)
+
 ## Description
-This is my first project using Django. It's a simple social media site inspired by Instagram. If you want to use this kind of Instagram, you have to sign up. Then, you have some options. You can follow someone if you want to see what posts that particular user is posting, you can add comment below any post and use thumb up option. All data changes dynamically. Bootstrap templates and partially ready-made html/css models were used in this application because the creation of this project is mainly focused on the backend functionalities using Django. 
-This app also has unit tests that test the views, forms, models and urls.
+It's a simple social media site inspired by Instagram. If you want to use this kind of Instagram, you have to sign up. Then, you have some options. You can follow someone if you want to see what posts that particular user is posting, you can add comment below any post and use thumb up option. All data changes dynamically. Bootstrap templates and partially ready-made html/css models were used in this application because the creation of this project is mainly focused on the backend functionalities using Django. 
 
-Project has been dockerized.
-
-This app was created for educational purposes.
+Unit tests in progress...
 
 If you want to check out my other projects [click here.](https://github.com/krzysztofgrabczynski)
+
+## Tools used in project
+
+<p align=center><a href="https://www.python.org"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="60" height="60"/></a> 
+<a href="https://www.djangoproject.com/"> <img src="https://cdn.worldvectorlogo.com/logos/django.svg" alt="django" width="60" height="60"/> </a>
+<a href="https://git-scm.com/"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" alt="git" width="60" height="60"/> </a> 
+<a href="https://aws.amazon.com/"> <img src="https://raw.githubusercontent.com/devicons/devicon/55609aa5bd817ff167afce0d965585c92040787a/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" alt="aws" width="60" height="60"/> </a>
+<a href="https://www.postgresql.org.pl/"> <img src="https://raw.githubusercontent.com/devicons/devicon/55609aa5bd817ff167afce0d965585c92040787a/icons/postgresql/postgresql-original-wordmark.svg" alt="psql" width="60" height="60"/> </a>
+<a href="https://www.docker.com/"> <img src="https://raw.githubusercontent.com/devicons/devicon/55609aa5bd817ff167afce0d965585c92040787a/icons/docker/docker-original-wordmark.svg" alt="docker" width="60" height="60"/> </a>
+<a href="https://python-poetry.org/"> <img src="https://github.com/python-poetry/website/blob/main/static/images/logo-origami.svg" alt="redis" width="60" height="60"/> </a></p>
 
 ## Preview
 <p align="center">
