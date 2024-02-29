@@ -1,3 +1,4 @@
+from functools import wraps
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -55,3 +56,37 @@ class ObjectOwnerRequiredMixin(AccessMixin):
         if not request.user == self.get_object_owner():
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
+
+
+class BaseLastVisitedUrlDecorator:
+    last_visited_session = "last_visited"
+
+
+class SaveLastVisitedUrl(BaseLastVisitedUrlDecorator):
+    """
+    Save into request.session current request path using `last_visited_session` value as session key.
+    """
+
+    def __call__(self, view_method):
+        @wraps(view_method)
+        def wrapper(request, *args, **kwargs):
+            request.session[self.last_visited_session] = request.get_full_path()
+            return view_method(request, *args, **kwargs)
+
+        return wrapper
+
+
+class SetLastVisitedUrl(BaseLastVisitedUrlDecorator):
+    """
+    Set url of the decorated view as last url saved in request.session, under session key as `last_visited_session` value.
+    """
+
+    def __call__(self, view_method):
+        @wraps(view_method)
+        def wrapper(request, *args, **kwargs):
+            url = request.session.get(self.last_visited_session)
+            cls = view_method.func.__self__
+            cls.url = url
+            return view_method(request, *args, **kwargs)
+
+        return wrapper
