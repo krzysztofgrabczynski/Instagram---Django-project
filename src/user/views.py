@@ -6,6 +6,7 @@ from django.views import generic
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.user.forms import UserRegistrationForm, EditUserProfileForm
 from src.user.models import UserProfileModel
@@ -40,7 +41,7 @@ class PasswordChangeView(auth_views.PasswordChangeView):
 
 
 @method_decorator(SaveLastVisitedUrl(), name="dispatch")
-class UserProfileView(generic.detail.DetailView):
+class UserProfileView(LoginRequiredMixin, generic.detail.DetailView):
     model = UserProfileModel
     template_name = "user_profile.html"
     context_object_name = "profile"

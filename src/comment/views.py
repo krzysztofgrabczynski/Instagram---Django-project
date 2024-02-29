@@ -1,6 +1,7 @@
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.user.mixins import ObjectOwnerRequiredMixin
 from src.comment.models import CommentModel
@@ -8,7 +9,7 @@ from src.comment.forms import CommentCreateForm
 from src.post.models import PostModel
 
 
-class CreateCommentView(generic.edit.BaseFormView):
+class CreateCommentView(LoginRequiredMixin, generic.edit.BaseFormView):
     form_class = CommentCreateForm
     success_url = reverse_lazy("home")
 

@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.forms.forms import Form
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.post.models import PostModel
 from src.post.forms import CreatePostForm
@@ -9,7 +10,7 @@ from src.user.mixins import ObjectOwnerRequiredMixin
 from src.user.models import UserProfileModel
 
 
-class CreatePostView(generic.CreateView):
+class CreatePostView(LoginRequiredMixin, generic.CreateView):
     model = PostModel
     form_class = CreatePostForm
     template_name = "add_post.html"

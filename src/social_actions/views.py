@@ -4,6 +4,7 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.social_actions.models import FollowModel, LikeModel
 from src.user.models import UserProfileModel
@@ -12,7 +13,7 @@ from src.user.mixins import SetLastVisitedUrl
 
 
 @method_decorator(SetLastVisitedUrl(), name="dispatch")
-class FollowActionView(generic.RedirectView):
+class FollowActionView(LoginRequiredMixin, generic.RedirectView):
     url = None
 
     def get(self, request, *args, **kwargs):
@@ -76,7 +77,7 @@ class FollowActionView(generic.RedirectView):
 
 
 @method_decorator(SetLastVisitedUrl(), name="dispatch")
-class LikeActionView(generic.RedirectView):
+class LikeActionView(LoginRequiredMixin, generic.RedirectView):
     url = None
 
     def get(self, request, *args, **kwargs):

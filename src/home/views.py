@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from src.post.models import PostModel
 from src.social_actions.models import FollowModel
@@ -10,7 +11,7 @@ from src.user.mixins import SaveLastVisitedUrl
 
 
 @method_decorator(SaveLastVisitedUrl(), name="dispatch")
-class HomeView(generic.TemplateView):
+class HomeView(LoginRequiredMixin, generic.TemplateView):
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):
@@ -25,7 +26,7 @@ class HomeView(generic.TemplateView):
         return context
 
 
-class Search(generic.RedirectView):
+class Search(LoginRequiredMixin, generic.RedirectView):
     url = reverse_lazy("home")
 
     def get(self, request, *args, **kwargs):
