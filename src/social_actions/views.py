@@ -1,6 +1,6 @@
-from typing import Any, Union
+from typing import Union
 
-from django.http import HttpRequest, HttpResponse
+from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.models import User
@@ -8,8 +8,10 @@ from django.contrib.auth.models import User
 from src.social_actions.models import FollowModel, LikeModel
 from src.user.models import UserProfileModel
 from src.post.models import PostModel
+from src.user.mixins import SetLastVisitedUrl
 
 
+@method_decorator(SetLastVisitedUrl(), name="dispatch")
 class FollowActionView(generic.RedirectView):
     url = None
 
@@ -23,8 +25,6 @@ class FollowActionView(generic.RedirectView):
             self.unfollow(request.user, user_profile, follow)
         else:
             self.follow(request.user, user_profile)
-
-        self.url = reverse_lazy("user_profile", kwargs={"pk": user_profile.pk})
 
         return super().get(request, *args, **kwargs)
 
@@ -75,22 +75,18 @@ class FollowActionView(generic.RedirectView):
         user_profile.save()
 
 
+@method_decorator(SetLastVisitedUrl(), name="dispatch")
 class LikeActionView(generic.RedirectView):
     url = None
 
     def get(self, request, *args, **kwargs):
         post = self.get_object()
-
         for like in post.likemodel_set.all():
             if like in request.user.likemodel_set.all():
                 self.delete_like(like, post)
                 break
         else:
             self.create_like(request.user, post)
-
-        self.url = reverse_lazy(
-            "user_profile", kwargs={"pk": post.user.userprofilemodel.pk}
-        )
 
         return super().get(request, *args, **kwargs)
 

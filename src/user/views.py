@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.db.models.query import QuerySet
 from django.contrib.auth import login
+from django.utils.decorators import method_decorator
 from django.views import generic
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
@@ -8,7 +9,11 @@ from django.http import HttpResponseRedirect
 
 from src.user.forms import UserRegistrationForm, EditUserProfileForm
 from src.user.models import UserProfileModel
-from src.user.mixins import RedirectIfLoggedUserMixin, ObjectOwnerRequiredMixin
+from src.user.mixins import (
+    RedirectIfLoggedUserMixin,
+    ObjectOwnerRequiredMixin,
+    SaveLastVisitedUrl,
+)
 from src.post.models import PostModel
 from src.social_actions.models import FollowModel
 
@@ -34,6 +39,7 @@ class PasswordChangeView(auth_views.PasswordChangeView):
     success_url = reverse_lazy("home")
 
 
+@method_decorator(SaveLastVisitedUrl(), name="dispatch")
 class UserProfileView(generic.detail.DetailView):
     model = UserProfileModel
     template_name = "user_profile.html"
@@ -48,6 +54,9 @@ class UserProfileView(generic.detail.DetailView):
         context = super().get_context_data(**kwargs)
         context.update(extra_context)
         return context
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     def _is_followed(self) -> bool:
         """

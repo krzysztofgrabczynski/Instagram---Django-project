@@ -1,12 +1,15 @@
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import generic
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 
 from src.post.models import PostModel
 from src.social_actions.models import FollowModel
+from src.user.mixins import SaveLastVisitedUrl
 
 
+@method_decorator(SaveLastVisitedUrl(), name="dispatch")
 class HomeView(generic.TemplateView):
     template_name = "home.html"
 
