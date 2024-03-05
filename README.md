@@ -7,7 +7,7 @@ This is the first version of the Instagram project on my github. If you want to 
 
 Additionaly, you can find here 2 branches:
 - main branch, is an improved version of the project, based on classes, splitting applications, using many tools, etc.
-- old_version branch, holds the original version of the project. Simple, based on funtions, without many tools and methodologies (it was first project based on Django)
+- old_version branch, holds the original version of the project. Simple, based on funtions, without many tools and methodologies (it was my first project based on Django)
 
 ## Description
 It's a simple social media site inspired by Instagram. If you want to use this kind of Instagram, you have to sign up. Then, you have some options. You can follow someone if you want to see what posts that particular user is posting, you can add comment below any post and use thumb up option. All data changes dynamically. Bootstrap templates and partially ready-made html/css models were used in this application because the creation of this project is mainly focused on the backend functionalities using Django. 
@@ -32,14 +32,21 @@ If you want to check out my other projects [click here.](https://github.com/krzy
 </p>
 
 
-## Install for local use 
-- Copy the repository
-- Create virtual environment using ``` python -m venv venv ``` in project directory
-- Use ``` . venv/Scripts/activate ``` to activate the virtual environment
-- Install required packages by ``` pip install -r requirements.txt ```
-- Enter the ``` python manage.py migrate --run-syncdb ``` to update migrations
-- Now, you can run the application with this: ``` python manage.py runserver ```
+## Install for local use (using Docker)
+- Clone the repository
+- Create .env file and add requirement variables such as 'SECRET_KEY' or database parameters
+- Build the Docker image using ``` docker-compose build ```
+- Run containers using ``` docker-compose up ```
+- Everything done! 
+
+## Install for local use (using poetry)
+- Clone the repository
+- Create .env file and add requirement variables such as 'SECRET_KEY' or database parameters
+- Enter the ``` poetry install ```
+- Now enter the ``` poetry shell ``` to open virtualenv and start app with ``` python manage.py runserver ```
 - Everything done! You can open Instagram app in your browser by ctrl + left click on http link in your console
+
+For local use without Docker, you also need to configure Postgres and Poetry
 
 
 
@@ -57,7 +64,6 @@ In this version, you can do some specific stuff, here is list of the most import
   - [x] use thumbs up option under the post and check the list of users who gave likes
   - [x] owners of the posts, can delete the post or edit (this options will be shown only for post owner)
   - [x] make a comment, it will be show below the post with your personal data, date of creation and deletion option
-- unit tests for views, forms, models and urls
 
 <br><br>
 
